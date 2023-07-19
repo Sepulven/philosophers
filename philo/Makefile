@@ -3,7 +3,7 @@ NAME		=	philo
 CC			=	cc
 CFLAGS 		=	-Wall -Werror -Wextra
 INCLUDES	=	-lpthread
-SRC			=	main.c
+SRC			=	main.c utils.c string.c converters.c
 OBJ			=	$(SRC:.c=.o)
 
 %.o: %.c
