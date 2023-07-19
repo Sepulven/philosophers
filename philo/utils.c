@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/19 23:27:02 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/07/19 23:53:31 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ static void	populate_philosophers(int argc, char *argv[])
 	int		i;
 	int		value;
 	char	*buffer;
+	int		*attr;
 
 	i = 0;
+	attr = &(philo()->n_philos);
 	while (i++ < argc - 1)
 	{
 		value = ft_atoi(argv[i]);
@@ -49,17 +51,24 @@ static void	populate_philosophers(int argc, char *argv[])
 			free(buffer);
 			error();
 		}
+		attr[i - 1] = value;
 		free(buffer);
 	}
 }
 
-// printf("value %d buffer %s i %d argv %s\n", value, buffer, i,  argv[i]);
-
 void	init_philosophers(int argc, char *argv[])
 {
+	int	i;
+	int	*attr;
+
+	i = 0;
+	attr = &(philo()->n_philos);
 	if (argc > 5 || argc < 4)
 		error();
 	populate_philosophers(argc, argv);
-
+	while (i++ < 5)
+	{
+		printf("attr %d index %d\n", attr[i - 1], i);
+	}
 }
 
