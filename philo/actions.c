@@ -1,31 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/20 21:42:04 by asepulve         ###   ########.fr       */
+/*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
+/*   Updated: 2023/07/20 21:21:33 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
 
-
-long long	gettime(void)
+void	*eating(void *arg)
 {
-	struct timeval	t;
-
-	gettimeofday(&t, NULL);
-	return ((t.tv_sec * 100) + (t.tv_usec / 1000));
+	return (NULL);
 }
 
-t_rules	*rules(void)
+void	*sleeping(void *arg)
 {
-	static t_rules	rules;
-
-	return (&rules);
+	return (NULL);
 }
 
+void	*thinking(void *arg)
+{
+	return (NULL);
+}
 
+void	*philo(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	while (philo->alive)
+	{
+		// If philo turn 
+			// Philo eat
+			// Philo sleep 
+		// else
+			// Philo think
+	}
+	return (NULL);
+}
+
+void	*check_deads(t_philo philo)
+{
+
+	return (NULL);
+}
