@@ -11,3 +11,17 @@
 My proposal for the algo:
 	1. We must init. the philo.;
 	2. Always check if they are alive of not.
+
+## Observation (26/07/2023)
+
+
+Important information:
+	struct timeval {
+		time_t      tv_sec;     // Represents the number of whole seconds.
+		suseconds_t tv_usec;    // Represents the number of microseconds (1/1,000,000 of a second).
+	};
+
+	usleep():
+
+	Description
+		The usleep() function suspends execution of the calling thread for (at least) usec microseconds. The sleep may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers. 

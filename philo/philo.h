@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/25 19:11:35 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:44:24 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_H 1
 
 # include <stdio.h>
+# include <string.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
