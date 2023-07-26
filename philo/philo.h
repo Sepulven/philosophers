@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/20 21:41:40 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:11:35 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@
 
 typedef struct s_philo
 {
-	int	left_fork; 
+	int	id;
+	int	left_fork;
 	int	right_fork;
-	// The right and left fork are going to have the indexes to the variable
-	// If both are 1 it may proceed
 	int	alive;
 }	t_philo;
 
@@ -39,12 +38,13 @@ typedef struct s_rules
 	int				forks_state[300];
 	pthread_t		philos[300];
 	pthread_mutex_t	forks[300];
+	pthread_mutex_t	print_mutex;
 }	t_rules;
 
 /*utils.c*/
 void		init_philosophers(int argc, char *argv[]);
-t_rules		*rules(void);
-long long	gettime(void);
+t_rules		*get_rules(void);
+long long	get_time(void);
 
 /*string.c*/
 int			ft_strncmp(const char *s1, const char *s2, size_t n);

@@ -6,14 +6,14 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/20 21:42:04 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:20:38 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
 
 
-long long	gettime(void)
+long long	print_message(rules, get_time(), philo->id, "is eating");get_time(void)
 {
 	struct timeval	t;
 
@@ -21,7 +21,7 @@ long long	gettime(void)
 	return ((t.tv_sec * 100) + (t.tv_usec / 1000));
 }
 
-t_rules	*rules(void)
+t_rules	*get_rules(void)
 {
 	static t_rules	rules;
 
