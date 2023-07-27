@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 17:41:16 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:13:40 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	init_philos(void)
 	i = 0;
 	rules = get_rules();
 	memset(rules->forks_state, 0, sizeof (rules->forks_state));
-	set_philos(rules->philos_arg, rules->n_philos);
 	init_mutexes(rules);
+	set_philos(rules->philos_arg, rules->n_philos);
 	while (i < rules->n_philos)
 	{
 		printf("Philo n: %ld\n\t\t left %d\n\t\t right %d\n", i,\
