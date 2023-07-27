@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 17:57:29 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/07/27 19:27:25 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_philo
 	int	left_fork;
 	int	right_fork;
 	int	alive;
+	int	turn;
 }	t_philo;
 
 typedef struct s_rules
@@ -36,6 +37,7 @@ typedef struct s_rules
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			n_times_must_eat;
+	int				died;
 	int				forks_state[300];
 	t_philo			philos_arg[300];
 	pthread_t		philos[300];
@@ -67,10 +69,12 @@ void		think(t_rules *rules, t_philo *philo);
 void		pick_fork(t_rules *rules, t_philo *philo);
 void		place_fork(t_rules *rules, t_philo *philo);
 
-
 /*string.c*/
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t		ft_strlen(const char *str);
+
+/*loggers.c*/
+void		log_philos(t_rules *rules);
 
 /*converters.c*/
 void		*ft_memcpy(void *dest, const void *src, size_t n);

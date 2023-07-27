@@ -25,32 +25,39 @@ Important information:
 
 	usleep():
 
-	Description
-		The usleep() function suspends execution of the calling thread for (at least) usec microseconds. The sleep may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers. 
+Description:
+The usleep() function suspends execution of the calling thread for (at least) usec microseconds. The sleep may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers. 
 
-	To check data races, we can use hellgrind
+To check data races, we can use hellgrind
 
 	gcc -g -o your_program your_program.c -pthread
 	valgrind --tool=helgrind ./your_program
 
 ## Notes (27/07/2023)
 
-	I will use the mutex to lock the use of the varible fork_status to check whether the forks/mutexes are availble or not.
+I will use the mutex to lock the use of the varible fork_status to check whether the forks/mutexes are availble or not.
 
-	Init. Philos:
-		I loop through the amount of philosophers and its left fork is going go be its current index. The right fork is going to be the current index + 1. For the last philosopher the left fork is the current index and the right one is the 0;
-	
-	Pick fork:
-		A philo. is going to take its fork and lock the thread with pthread_mutex_lock and change the state of the fork_status.
-	Place fork:
-		Do the inverse of the take fork.
-	Eat:
-		With the forks taken, the philosophers eats for an X amount of time(usleep). When done it drops the forks.
-	Sleep:
-		A philosopher sleeps (usleep) for X amount of time; With the fork realeased.
-	Think:
-		While it hasn't timed out the philo. waits until there is another fork avaible. If the philosophers times out its status should change.
+Init. Philos:
+	I loop through the amount of philosophers and its left fork is going go be its current index. The right fork is going to be the current index + 1. For the last philosopher the left fork is the current index and the right one is the 0;
 
-	Die:
-		On the main thread we are going to be looping over and over until we find whether a philosophers died or not through its status on the philo. struct.
-		If a philo. died it should print the message and clear the message.
+Pick fork:
+	A philo. is going to take its fork and lock the thread with pthread_mutex_lock and change the state of the fork_status.
+Place fork:
+	Do the inverse of the take fork.
+Eat:
+	With the forks taken, the philosophers eats for an X amount of time(usleep). When done it drops the forks.
+Sleep:
+	A philosopher sleeps (usleep) for X amount of time; With the fork realeased.
+Think:
+	While it hasn't timed out the philo. waits until there is another fork avaible. If the philosophers times out its status should change.
+
+Die:
+	On the main thread we are going to be looping over and over until we find whether a philosophers died or not through its status on the philo. struct.
+	If a philo. died it should print the message and clear the message.
+
+Chaleira note: Verify in each action wether the philo. is alive or not. They may die during a loot
+
+
+Convertion note: usleep wors with microseconds; gettimeofday works with microsendcs aswell; the subject says we must work with miliseconds.
+	1 millisecond (ms) = 1000 microseconds (μs)
+	1 microsecond (μs) = 0.001 milliseconds (ms)

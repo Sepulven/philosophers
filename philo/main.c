@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 17:52:46 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/07/27 19:43:53 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@ static void	set_rules(int argc, char *argv[])
 	int		value;
 	char	*buffer;
 	long	*attr;
+	t_rules	*rules;
 
 	i = 0;
-	attr = &(get_rules()->n_philos);
+	rules = get_rules();
+	attr = &(rules->n_philos);
+	if (argc - 1 == 4)
+		rules->n_times_must_eat = -1;
 	while (i++ < argc - 1)
 	{
 		value = ft_atoi(argv[i]);
@@ -36,16 +40,14 @@ static void	set_rules(int argc, char *argv[])
 	}
 }
 
-
 void	*routine(void *arg)
 {
-	(void)arg;
-	// int		*i;
-	// t_rules	*rules;
-	// t_philo	*philo;
+	int		i;
+	t_philo	*philo;
 
-	// rules = get_rules();
-	// philo = (t_philo *)arg;
+	philo = (t_philo *)arg;
+	(void)i;
+	(void)philo;
 	// while (philo->alive)
 	// {
 	// 	if (pick_fork(rules, philo))
@@ -59,22 +61,52 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-// printf("sizeof forks_state %ld\n sizeof(int) %ld\n", sizeof (rules->forks_state), sizeof(int));
+void	init_philos(void)
+{
+	t_rules	*rules;
+	long	i;
+
+	i = 0;
+	rules = get_rules();
+	memset(rules->forks_state, 0, sizeof (rules->forks_state));
+	init_mutexes(rules);
+	set_philos(rules->philos_arg, rules->n_philos);
+	while (i < rules->n_philos)
+	{
+		pthread_create(&rules->philos[i], NULL, routine, &rules->philos_arg[i]);
+		i++;
+	}
+	join_threads(rules);
+	destroy_mutexes(rules);
+}
+
+// printf("sizeof forks_state %ld\n sizeof(int) %ld\n", sizeof
+// (rules->forks_state), sizeof(int));
 
 int	main(int argc, char *argv[])
 {
+	t_rules		*rules;
+	long		i;
+	long		turn_time;
+
+	i = 0;
+	rules = get_rules();
 	if (argc > 5 || argc < 4)
 	{
 		printf("There was an error while parsing.\n");
 		exit(1);
 	}
-	(void)set_rules;
-	(void)argc;
-	(void)argv;
 	set_rules(argc, argv);
 	init_philos();
-	/*
-	loop right here to chekc whether the philo has died or not
-	if not go to next turn.
-	*/
+	turn_time = (rules->time_to_die + rules->time_to_eat \
+				+ rules->time_to_sleep) * 1000;
+	// usleep(30000);
+	printf("turn_time: %ld\n", turn_time);
+	while (!rules->died && !(rules->n_times_must_eat > 0 \
+	&& i < rules->n_times_must_eat))
+	{
+		printf("%ld \n", i++);
+		usleep(turn_time);
+	}
+	printf("\n");
 }

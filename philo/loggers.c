@@ -1,47 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   loggers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 18:17:56 by asepulve         ###   ########.fr       */
+/*   Created: 2023/07/27 18:18:30 by asepulve          #+#    #+#             */
+/*   Updated: 2023/07/27 18:25:15 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
 
-
-long long	get_time(void)
+void	log_philos(t_rules *rules)
 {
-	struct timeval	t;
-
-	gettimeofday(&t, NULL);
-	return ((t.tv_sec * 100) + (t.tv_usec / 1000));
-}
-
-t_rules	*get_rules(void)
-{
-	static t_rules	rules;
-
-	return (&rules);
-}
-
-void	set_philos(t_philo philos[300], long n_philos)
-{
-	long	i;
+	int	i;
 
 	i = 0;
-	while (i < n_philos)
+	while (i < rules->n_philos)
 	{
-		philos[i].id = (int)i;
-		philos[i].alive = 1;
-		philos[i].left_fork = i;
-		if (i + 1 == n_philos)
-			philos[i].right_fork = 0;
-		else
-			philos[i].right_fork = i + 1;
+		printf("Philo: %d\n\t Alive: %d \t left: %d right: %d", \
+		i, \
+		rules->philos_arg[i].alive, \
+		rules->philos_arg[i].left_fork, \
+		rules->philos_arg[i].right_fork \
+		);
 		i++;
 	}
 }
