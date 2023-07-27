@@ -6,45 +6,60 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/20 21:21:33 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/07/27 17:50:38 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
 
-void	*eating(void *arg)
+void	eat(t_rules *rules, t_philo *philo)
 {
-	return (NULL);
+	(void)rules;
+	(void)philo;
+	// print_message(rules, get_time(), philo->id, "is eating");
+	// usleep(rules->time_to_eat);
+	return ;
 }
 
-void	*sleeping(void *arg)
+void	nap(t_rules *rules, t_philo *philo)
 {
-	return (NULL);
+	(void)rules;
+	(void)philo;
+	return ;
 }
 
-void	*thinking(void *arg)
+void	think(t_rules *rules, t_philo *philo)
 {
-	return (NULL);
+	(void)rules;
+	(void)philo;
+	// int	i;
+
+	// i = 0;
+	// while ((rules->forks[philo->right_fork] && rules->forks[philo->right_fork])
+	// 	&&	(i < rules->time_to_die))
+	// {
+	// 	usleep(1);
+	// 	i++;
+	// }
+	return ;
 }
 
-void	*philo(void *arg)
+void	pick_fork(t_rules *rules, t_philo *philo)
 {
-	t_philo	*philo;
+	(void)rules;
+	(void)philo;
+	// pthread_mutex_lock(&rules->forks[fork]);
+	// rules->forks_state[0] = 1;
 
-	philo = (t_philo *)arg;
-	while (philo->alive)
-	{
-		// If philo turn 
-			// Philo eat
-			// Philo sleep 
-		// else
-			// Philo think
-	}
-	return (NULL);
+	return ;
 }
 
-void	*check_deads(t_philo philo)
+void	place_fork(t_rules *rules, t_philo *philo)
 {
+	(void)rules;
+	(void)philo;
+	// pthread_mutex_lock(&rules->forks[fork]);
+	// rules->forks_state[0] = 1;
 
-	return (NULL);
+	return ;
 }
