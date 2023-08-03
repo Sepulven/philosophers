@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 19:27:25 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/03 20:30:18 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_philo
 	int	left_fork;
 	int	right_fork;
 	int	alive;
-	int	turn;
+	int	is_turn;
 }	t_philo;
 
 typedef struct s_rules

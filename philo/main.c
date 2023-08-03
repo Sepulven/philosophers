@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 19:43:53 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/03 20:39:06 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,26 @@ void	init_philos(void)
 // printf("sizeof forks_state %ld\n sizeof(int) %ld\n", sizeof
 // (rules->forks_state), sizeof(int));
 
-int	main(int argc, char *argv[])
+void	set_turn(t_rules *rules, int turn)
+{
+	int	i;
+	int	last_philo;
+
+	last_philo = rules->n_philos - (rules->n_philos % 2 != 0);
+	i = 0;
+	while (i < last_philo)
+	{
+		if (((turn % 2 == 0) && (i % 2 == 0)) 
+			|| ((turn % 2 != 0) && (i % 2 != 0)))
+			rules->philos_arg[i].is_turn = 1;
+		else
+			rules->philos_arg[i].is_turn = 0;
+		i++;
+	}
+	rules->philos_arg[turn].is_turn = 0;
+}
+
+int		main(int argc, char *argv[])
 {
 	t_rules		*rules;
 	long		i;
@@ -100,13 +119,14 @@ int	main(int argc, char *argv[])
 	init_philos();
 	turn_time = (rules->time_to_die + rules->time_to_eat \
 				+ rules->time_to_sleep) * 1000;
-	// usleep(30000);
-	printf("turn_time: %ld\n", turn_time);
 	while (!rules->died && !(rules->n_times_must_eat > 0 \
 	&& i < rules->n_times_must_eat))
 	{
-		printf("%ld \n", i++);
+		set_turn(rules, i++);
+		if (i == rules->n_philos)
+			i = 0;
+		log_philos(rules);
+		printf("\n");
 		usleep(turn_time);
 	}
-	printf("\n");
 }

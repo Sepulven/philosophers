@@ -8,7 +8,7 @@ loggers.c
 OBJ			=	$(SRC:.c=.o)
 
 %.o: %.c
-	@${CC} ${CFLAGS} ${INCLUDES} -c $<  -o $@
+	@${CC} ${CFLAGS} -c $< -o $@
 
 all: $(NAME)
 
