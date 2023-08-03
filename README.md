@@ -58,6 +58,11 @@ Die:
 Chaleira note: Verify in each action wether the philo. is alive or not. They may die during a loot
 
 
-Convertion note: usleep wors with microseconds; gettimeofday works with microsendcs aswell; the subject says we must work with miliseconds.
+Convertion note: usleep works with microseconds; gettimeofday works with microsendcs aswell; the subject says we must work with miliseconds.
 	1 millisecond (ms) = 1000 microseconds (μs)
 	1 microsecond (μs) = 0.001 milliseconds (ms)
+
+## Notes (03/07/2023)
+
+I've defined that the fork of the philosopher is going to be on its left side.
+I've figured out the algo for the philosophers turn.
