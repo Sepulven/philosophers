@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/04 23:57:15 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 00:43:37 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,29 +100,32 @@ void	set_turn(t_rules *rules, int turn)
 			rules->philos_arg[i].is_turn = 0;
 		i++;
 	}
-	rules->philos_arg[turn].is_turn = 0;
 }
 
 int		main(int argc, char *argv[])
 {
 	t_rules		*rules;
 	long		i;
+	long		turn_id;
 	long		turn_time;
 
-	i = 0;
-	rules = get_rules();
-	if (argc > 5 || argc < 4)
+	if (argc > 6 || argc < 5)
 	{
 		printf("There was an error while parsing.\n");
 		exit(1);
 	}
+
+	rules = get_rules();
 	set_rules(argc, argv);
 	init_philos();
 	turn_time = (rules->time_to_die + rules->time_to_eat \
 				+ rules->time_to_sleep) * 1000;
-	while (!rules->died && !(rules->n_times_must_eat > 0 \
-	&& i < rules->n_times_must_eat))
+	i = 0;
+	turn_id = 0;
+	printf("n_times_must_eat %ld\n", rules->n_times_must_eat);
+	while (!rules->died && (rules->n_times_must_eat == -1 || turn_id < rules->n_times_must_eat))
 	{
+		turn_id++;
 		set_turn(rules, i++);
 		if (i == rules->n_philos)
 			i = 0;
