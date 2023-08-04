@@ -6,11 +6,12 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/03 20:39:06 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/04 23:57:15 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
+
 
 static void	set_rules(int argc, char *argv[])
 {
