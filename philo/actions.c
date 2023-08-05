@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 17:50:38 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:53:06 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,6 @@ void	think(t_rules *rules, t_philo *philo)
 	// 	usleep(1);
 	// 	i++;
 	// }
-	return ;
-}
-
-void	pick_fork(t_rules *rules, t_philo *philo)
-{
-	(void)rules;
-	(void)philo;
-	// pthread_mutex_lock(&rules->forks[fork]);
-	// rules->forks_state[0] = 1;
-
 	return ;
 }
 

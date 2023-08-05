@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/03 20:30:18 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 02:00:19 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,18 @@
 # include <sys/time.h>
 # include <stddef.h>
 
+typedef struct s_rules t_rules;
+
+#define DEBUG write(1, "ok\n", 3);
+
 typedef struct s_philo
 {
-	int	id;
-	int	left_fork;
-	int	right_fork;
-	int	alive;
-	int	is_turn;
+	int		id;
+	int		left_fork;
+	int		right_fork;
+	int		alive;
+	int		is_turn;
+	t_rules	*rules;
 }	t_philo;
 
 typedef struct s_rules
@@ -44,8 +49,6 @@ typedef struct s_rules
 	pthread_mutex_t	forks[300];
 	pthread_mutex_t	print_mutex;
 }	t_rules;
-
-
 
 /*utils_1.c*/
 long long	get_time(void);
@@ -66,7 +69,7 @@ void		join_threads(t_rules *rules);
 void		eat(t_rules *rules, t_philo *philo);
 void		nap(t_rules *rules, t_philo *philo);
 void		think(t_rules *rules, t_philo *philo);
-void		pick_fork(t_rules *rules, t_philo *philo);
+int			pick_fork(t_rules *rules, t_philo *philo);
 void		place_fork(t_rules *rules, t_philo *philo);
 
 /*string.c*/
