@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/05 15:21:07 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 23:45:33 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	set_philos(t_rules *rules)
 		rules->philos_arg[i].alive = 1;
 		rules->philos_arg[i].left_fork = i;
 		rules->philos_arg[i].rules = rules;
+		rules->philos_arg[i].get_turn = get_turn;
+		rules->philos_arg[i].set_turn = set_turn;
 		if (i + 1 == rules->n_philos)
 			rules->philos_arg[i].right_fork = 0;
 		else
@@ -47,7 +49,7 @@ void	set_philos(t_rules *rules)
 	}
 }
 
-void	set_rules(int argc, char *argv[], t_rules **rules)
+void	set_rules(int argc, char *argv[], t_rules *rules)
 {
 	int		i;
 	int		value;
@@ -55,9 +57,9 @@ void	set_rules(int argc, char *argv[], t_rules **rules)
 	long	*attr;
 
 	i = 0;
-	attr = &((*rules)->n_philos);
+	attr = &(rules->n_philos);
 	if (argc - 1 == 4)
-		(*rules)->n_times_must_eat = -1;
+		rules->n_times_must_eat = -1;
 	while (i++ < argc - 1)
 	{
 		value = ft_atoi(argv[i]);
@@ -71,6 +73,9 @@ void	set_rules(int argc, char *argv[], t_rules **rules)
 		attr[i - 1] = value;
 		free(buffer);
 	}
+	rules->set_died = set_died;
+	rules->get_died = get_died;
+	rules->died = 0;
 }
 
 void	init_philos(t_rules *rules)
@@ -78,14 +83,9 @@ void	init_philos(t_rules *rules)
 	long	i;
 
 	i = 0;
-	memset(rules->forks_state, 0, sizeof (rules->forks_state));
-	init_mutexes(rules);
-	set_philos(rules);
 	while (i < rules->n_philos)
 	{
 		pthread_create(&rules->philos[i], NULL, routine, &rules->philos_arg[i]);
 		i++;
 	}
-	join_threads(rules);
-	destroy_mutexes(rules);
 }

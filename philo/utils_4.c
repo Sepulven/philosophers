@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_3.c                                          :+:      :+:    :+:   */
+/*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/27 17:06:22 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/05 23:53:20 by asepulve         ###   ########.fr       */
+/*   Created: 2023/08/05 23:28:21 by asepulve          #+#    #+#             */
+/*   Updated: 2023/08/05 23:34:03 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
 
-/*
-	* I need to protect the pthread_join this is just a test.
-*/
-void	join_threads(t_rules *rules)
+int get_turn(t_philo* philo)
 {
-	int	i;
+    int state;
 
-	i = 0;
-	while (i < rules->n_philos)
-		pthread_join(rules->philos[i++], NULL);
+    pthread_mutex_lock(&philo->rules->turn_mutex);
+    state = philo->turn;
+    pthread_mutex_unlock(&philo->rules->turn_mutex);
+    return (state);
+}
+
+int set_turn(t_philo* philo, int value)
+{
+    pthread_mutex_lock(&philo->rules->turn_mutex);
+    philo->turn = value;
+    pthread_mutex_unlock(&philo->rules->turn_mutex);
+    return (1);
 }

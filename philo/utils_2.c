@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:03:00 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/05 14:37:43 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 23:53:01 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	init_mutexes(t_rules *rules)
 	int	i;
 
 	i = 0;
+	memset(rules->forks_state, 0, sizeof (rules->forks_state));
 	while (i < 300)
 	{
 		if (pthread_mutex_init(&rules->forks[i], NULL))
@@ -26,6 +27,9 @@ void	init_mutexes(t_rules *rules)
 		}
 		i++;
 	}
+	pthread_mutex_init(&rules->print_mutex, NULL);
+	pthread_mutex_init(&rules->turn_mutex, NULL);
+	pthread_mutex_init(&rules->died_mutex, NULL);
 }
 
 void	destroy_mutexes(t_rules *rules)
@@ -36,12 +40,29 @@ void	destroy_mutexes(t_rules *rules)
 	while (i < rules->n_philos)
 	{
 		if (pthread_mutex_destroy(&rules->forks[i]))
-		{
-			printf("We couldn't destroy the mutex.\n");
 			exit(0);
-		}
 		i++;
 	}
+	pthread_mutex_destroy(&rules->print_mutex);
+	pthread_mutex_destroy(&rules->turn_mutex);
+	pthread_mutex_destroy(&rules->died_mutex);
+}
+
+int	get_died(t_rules *rules)
+{
+	int	state;
+
+	pthread_mutex_lock(&rules->died_mutex);
+	state = rules->died;
+	pthread_mutex_unlock(&rules->died_mutex);
+	return (state);
+}
+int	set_died(t_rules *rules)
+{
+	pthread_mutex_lock(&rules->died_mutex);
+	rules->died = 1;
+	pthread_mutex_unlock(&rules->died_mutex);
+	return (1);
 }
 
 
