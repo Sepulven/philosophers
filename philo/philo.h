@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/05 02:00:19 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:20:42 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <stddef.h>
+
+# define FORK_MSG "has taken a fork"
+# define EAT_MSG "is eating"
+# define NAP_MSG "is sleeping"
+# define THINK_MSG "is thinking"
+# define DIE_MSG "dies"
 
 typedef struct s_rules t_rules;
 
@@ -53,24 +59,24 @@ typedef struct s_rules
 /*utils_1.c*/
 long long	get_time(void);
 t_rules		*get_rules(void);
-void		set_philos(t_philo philos[300], long n_philos);
-void		init_philos(void);
+void		set_philos(t_rules *rules);
+void		init_philos(t_rules *rules);
+void		set_rules(int argc, char *argv[], t_rules **rules)
+
 
 /*utils_2.c*/
 void		init_mutexes(t_rules *rules);
 void		destroy_mutexes(t_rules *rules);
-void		print_message(t_rules *rules, long long timestamp, \
-			int philo, const char *message);
 
 /*utils_3.c*/
 void		join_threads(t_rules *rules);
 
 /*actions.c*/
-void		eat(t_rules *rules, t_philo *philo);
-void		nap(t_rules *rules, t_philo *philo);
-void		think(t_rules *rules, t_philo *philo);
-int			pick_fork(t_rules *rules, t_philo *philo);
-void		place_fork(t_rules *rules, t_philo *philo);
+void		eat(t_philo *philo);
+void		nap(t_philo *philo);
+void		think(t_philo *philo);
+int			pick_fork(t_philo *philo);
+int			place_fork(t_philo *philo);
 
 /*string.c*/
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -78,6 +84,7 @@ size_t		ft_strlen(const char *str);
 
 /*loggers.c*/
 void		log_philos(t_rules *rules);
+void		print_message(t_philo *philo, const char *message);
 
 /*converters.c*/
 void		*ft_memcpy(void *dest, const void *src, size_t n);

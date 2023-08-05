@@ -66,3 +66,11 @@ Convertion note: usleep works with microseconds; gettimeofday works with microse
 
 I've defined that the fork of the philosopher is going to be on its left side.
 I've figured out the algo for the philosophers turn.
+
+## Notes (03/07/2023)
+
+In order to have access to the posix manual we should install it as follow:
+
+```
+sudo apt install manpages-posix-dev
+```

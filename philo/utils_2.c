@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:03:00 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 18:14:07 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 14:37:43 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,4 @@ void	destroy_mutexes(t_rules *rules)
 	}
 }
 
-void	print_message(t_rules *rules, long long timestamp, \
-		int philo, const char *message)
-{
-	pthread_mutex_lock(&rules->print_mutex);
-	printf("%llu %d %s", timestamp, philo, message);
-	pthread_mutex_unlock(&rules->print_mutex);
-}
+

@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/07/27 18:17:56 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:21:07 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,64 @@ t_rules	*get_rules(void)
 	return (&rules);
 }
 
-void	set_philos(t_philo philos[300], long n_philos)
+void	set_philos(t_rules *rules)
 {
 	long	i;
 
 	i = 0;
-	while (i < n_philos)
+	while (i < rules->n_philos)
 	{
-		philos[i].id = (int)i;
-		philos[i].alive = 1;
-		philos[i].left_fork = i;
-		if (i + 1 == n_philos)
-			philos[i].right_fork = 0;
+		rules->philos_arg[i].id = (int)i;
+		rules->philos_arg[i].alive = 1;
+		rules->philos_arg[i].left_fork = i;
+		rules->philos_arg[i].rules = rules;
+		if (i + 1 == rules->n_philos)
+			rules->philos_arg[i].right_fork = 0;
 		else
-			philos[i].right_fork = i + 1;
+			rules->philos_arg[i].right_fork = i + 1;
 		i++;
 	}
+}
+
+void	set_rules(int argc, char *argv[], t_rules **rules)
+{
+	int		i;
+	int		value;
+	char	*buffer;
+	long	*attr;
+
+	i = 0;
+	attr = &((*rules)->n_philos);
+	if (argc - 1 == 4)
+		(*rules)->n_times_must_eat = -1;
+	while (i++ < argc - 1)
+	{
+		value = ft_atoi(argv[i]);
+		buffer = ft_itoa(value);
+		if (ft_strncmp(argv[i], buffer, ft_strlen(argv[i])) || value < 0)
+		{
+			free(buffer);
+			printf("There was an error while parsing.\n");
+			exit(1);
+		}
+		attr[i - 1] = value;
+		free(buffer);
+	}
+}
+
+void	init_philos(t_rules *rules)
+{
+	long	i;
+
+	i = 0;
+	memset(rules->forks_state, 0, sizeof (rules->forks_state));
+	init_mutexes(rules);
+	set_philos(rules);
+	while (i < rules->n_philos)
+	{
+		pthread_create(&rules->philos[i], NULL, routine, &rules->philos_arg[i]);
+		i++;
+	}
+	join_threads(rules);
+	destroy_mutexes(rules);
 }

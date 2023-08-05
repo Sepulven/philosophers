@@ -6,110 +6,61 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/05 02:01:23 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:21:01 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
 
-
-static void	set_rules(int argc, char *argv[])
+int	pick_fork(t_philo *philo)
 {
-	int		i;
-	int		value;
-	char	*buffer;
-	long	*attr;
-	t_rules	*rules;
-
-	i = 0;
-	rules = get_rules();
-	attr = &(rules->n_philos);
-	if (argc - 1 == 4)
-		rules->n_times_must_eat = -1;
-	while (i++ < argc - 1)
-	{
-		value = ft_atoi(argv[i]);
-		buffer = ft_itoa(value);
-		if (ft_strncmp(argv[i], buffer, ft_strlen(argv[i])) || value < 0)
-		{
-			free(buffer);
-			printf("There was an error while parsing.\n");
-			exit(1);
-		}
-		attr[i - 1] = value;
-		free(buffer);
-	}
-}
-/*
-(rules->forks_state[philo->left_fork] == 0
-			&& rules->forks_state[philo->right_fork] == 0
-*/
-
-int	pick_fork(t_rules *rules, t_philo *philo)
-{
-
-	if	(rules->forks_state[philo->left_fork] == 0
-			&& rules->forks_state[philo->right_fork] == 0)
+	if	(philo->rules->forks_state[philo->left_fork]
+		&& philo->rules->forks_state[philo->right_fork])
 		return (0);
-	if (!pthread_mutex_lock(&rules->forks[philo->left_fork]))
+	if (!pthread_mutex_lock(&philo->rules->forks[philo->left_fork]))
 	{
-		rules->forks_state[philo->left_fork] = 1;
-		print_message(rules, get_time(), philo->id, "has taken a fork");
+		philo->rules->forks_state[philo->left_fork] = 1;
+		print_message(philo, FORK_MSG);
 	}
-	if (!pthread_mutex_lock(&rules->forks[philo->right_fork]))
+	if (!pthread_mutex_lock(&philo->rules->forks[philo->right_fork]))
 	{
-		rules->forks_state[philo->right_fork] = 1;
-		print_message(rules, get_time(), philo->id, "has taken a fork");
+		philo->rules->forks_state[philo->left_fork] = 1;
+		print_message(philo, FORK_MSG);
 	}
+	return (1);
+}
+
+int	place_fork(t_philo *philo)
+{
+	if	(!philo->rules->forks_state[philo->left_fork]
+		&& !philo->rules->forks_state[philo->right_fork])
+		return (0);
+	if (!pthread_mutex_unlock(&philo->rules->forks[philo->left_fork]))
+		philo->rules->forks_state[philo->left_fork] = 0;
+	if (!pthread_mutex_unlock(&philo->rules->forks[philo->right_fork]))
+		philo->rules->forks_state[philo->left_fork] = 0;
 	return (1);
 }
 
 void	*routine(void *arg)
 {
-	int		i;
-	t_rules	*rules;
 	t_philo	*philo;
 
-	i = *(int *)arg;
-	rules = get_rules();
-	philo = &rules->philos_arg[i];
-	DEBUG
+	philo = (t_philo *)arg;
 	while (philo->alive)
 	{
-		DEBUG
-		if (pick_fork(rules, philo))
+		usleep(philo->rules->time_to_eat);
+		if (pick_fork(philo))
 		{
-
-			eat(rules, philo);
-			nap(rules, philo);
+			eat(philo);
+			place_fork(philo);
+			nap(philo);
 		}
-		else
-			think(rules, philo);
+		// else
+		// 	think(philo);
 	}
 	return (NULL);
 }
-
-void	init_philos(void)
-{
-	t_rules	*rules;
-	long	i;
-
-	i = 0;
-	rules = get_rules();
-	memset(rules->forks_state, 0, sizeof (rules->forks_state));
-	init_mutexes(rules);
-	set_philos(rules->philos_arg, rules->n_philos);
-	while (i < rules->n_philos)
-	{
-		pthread_create(&rules->philos[i], NULL, routine, &i);
-		i++;
-	}
-	join_threads(rules);
-	destroy_mutexes(rules);
-}
-
-// printf("sizeof forks_state %ld\n sizeof(int) %ld\n", sizeof
-// (rules->forks_state), sizeof(int));
 
 void	set_turn(t_rules *rules, int turn)
 {
@@ -127,7 +78,7 @@ void	set_turn(t_rules *rules, int turn)
 	}
 }
 
-int		main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_rules		*rules;
 	long		i;
@@ -140,8 +91,8 @@ int		main(int argc, char *argv[])
 		exit(1);
 	}
 	rules = get_rules();
-	set_rules(argc, argv);
-	init_philos();
+	set_rules(argc, argv, &rules);
+	init_philos(rules);
 	turn_time = (rules->time_to_die + rules->time_to_eat \
 				+ rules->time_to_sleep) * 1000;
 	i = 0;
@@ -155,4 +106,5 @@ int		main(int argc, char *argv[])
 			i = 0;
 		usleep(turn_time);
 	}
+	return (0);
 }
