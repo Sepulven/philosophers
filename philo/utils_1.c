@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/06 19:56:19 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/06 22:19:51 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 
 long long	get_time(t_rules *rules)
 {
+	static long long started_at;
 	struct timeval		t;
-
+	
+	(void)rules;
 	gettimeofday(&t, NULL);
-	return (((long long)t.tv_usec - rules->started_at) / 1000);
+	if (!started_at)
+		started_at = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	return ((t.tv_sec * 1000) + (t.tv_usec / 1000) - started_at);
 }
 
 void	set_philos(t_rules *rules)
