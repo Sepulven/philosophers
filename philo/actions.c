@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/05 15:53:30 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:01:07 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	think(t_philo *philo)
 	// int	i;
 
 	// i = 0;
-	// while ((rules->forks[philo->right_fork] && rules->forks[philo->right_fork])
-	// 	&&	(i < rules->time_to_die))
+	// while ()
 	// {
-	// 	usleep(1);
+	// 	usleep(1 * 100);
 	// 	i++;
 	// }
 	return ;

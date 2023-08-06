@@ -6,26 +6,19 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/05 23:45:33 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:56:19 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
 
 
-long long	get_time(void)
+long long	get_time(t_rules *rules)
 {
-	struct timeval	t;
+	struct timeval		t;
 
 	gettimeofday(&t, NULL);
-	return ((t.tv_sec * 100) + (t.tv_usec / 1000));
-}
-
-t_rules	*get_rules(void)
-{
-	static t_rules	rules;
-
-	return (&rules);
+	return (((long long)t.tv_usec - rules->started_at) / 1000);
 }
 
 void	set_philos(t_rules *rules)
@@ -37,24 +30,25 @@ void	set_philos(t_rules *rules)
 	{
 		rules->philos_arg[i].id = (int)i;
 		rules->philos_arg[i].alive = 1;
-		rules->philos_arg[i].left_fork = i;
+		rules->philos_arg[i].turn = 0;
 		rules->philos_arg[i].rules = rules;
 		rules->philos_arg[i].get_turn = get_turn;
 		rules->philos_arg[i].set_turn = set_turn;
+		rules->philos_arg[i].left_fork = (int)i;
 		if (i + 1 == rules->n_philos)
 			rules->philos_arg[i].right_fork = 0;
 		else
-			rules->philos_arg[i].right_fork = i + 1;
+			rules->philos_arg[i].right_fork = (int)i + 1;
 		i++;
 	}
 }
 
 void	set_rules(int argc, char *argv[], t_rules *rules)
 {
-	int		i;
-	int		value;
-	char	*buffer;
-	long	*attr;
+	int			i;
+	int			value;
+	char		*buffer;
+	long long	*attr;
 
 	i = 0;
 	attr = &(rules->n_philos);
@@ -73,6 +67,7 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 		attr[i - 1] = value;
 		free(buffer);
 	}
+	rules->turn_time = attr[1] + attr[2] + attr[3];
 	rules->set_died = set_died;
 	rules->get_died = get_died;
 	rules->died = 0;
@@ -80,7 +75,7 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 
 void	init_philos(t_rules *rules)
 {
-	long	i;
+	long			i;
 
 	i = 0;
 	while (i < rules->n_philos)

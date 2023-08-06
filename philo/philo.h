@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/05 23:47:46 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:17:58 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,30 @@ typedef struct s_philo
 
 typedef struct s_rules
 {
-	long			n_philos;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	long			n_times_must_eat;
+	long long		n_philos;
+	long long		time_to_die;
+	long long		time_to_eat;
+	long long		time_to_sleep;
+	long long		n_times_must_eat;
+	long long		started_at;
+	long long		turn_time;
+	pthread_mutex_t	forks[300];
+	pthread_mutex_t turn_mutex;
+	pthread_mutex_t	died_mutex;
+	pthread_mutex_t	print_mutex;
 	int				died;
 	int				(*get_died)(t_rules *rules);
 	int				(*set_died)(t_rules *rules);
 	int				forks_state[300];
 	t_philo			philos_arg[300];
 	pthread_t		philos[300];
-	pthread_mutex_t	forks[300];
-	pthread_mutex_t turn_mutex;
-	pthread_mutex_t	died_mutex;
-	pthread_mutex_t	print_mutex;
 }	t_rules;
 
 /*utils_1.c*/
-long long	get_time(void);
-t_rules		*get_rules(void);
+long long	get_time(t_rules *rules);
 void		set_philos(t_rules *rules);
 void		init_philos(t_rules *rules);
 void		set_rules(int argc, char *argv[], t_rules *rules);
-
 
 /*utils_2.c*/
 void		init_mutexes(t_rules *rules);
