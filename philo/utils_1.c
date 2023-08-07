@@ -6,19 +6,18 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/06 22:19:51 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 13:38:43 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
 
 
-long long	get_time(t_rules *rules)
+long long	get_time(void)
 {
 	static long long started_at;
 	struct timeval		t;
 	
-	(void)rules;
 	gettimeofday(&t, NULL);
 	if (!started_at)
 		started_at = (t.tv_sec * 1000) + (t.tv_usec / 1000);
