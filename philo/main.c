@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/06 19:58:19 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/06 22:53:12 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	pick_fork(t_philo *philo)
 {
 	if	(!philo->get_turn(philo) || (philo->rules->forks_state[philo->left_fork]
 		|| philo->rules->forks_state[philo->right_fork]))
+		return (0);
 	if (!pthread_mutex_lock(&philo->rules->forks[philo->left_fork]))
 	{
 		philo->rules->forks_state[philo->left_fork] = 1;
@@ -46,7 +47,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (1)
+	while (!philo->rules->get_died(philo->rules))
 	{
 		if (pick_fork(philo))
 		{

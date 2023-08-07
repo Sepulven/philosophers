@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/06 20:01:07 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 13:48:00 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,17 @@ void	nap(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-	(void)philo;
-	// int	i;
+	int	i;
 
-	// i = 0;
-	// while ()
-	// {
-	// 	usleep(1 * 100);
-	// 	i++;
-	// }
+	i = 0;
+	while (!philo->get_turn(philo) && i < philo->rules->time_to_die)
+	{
+		usleep(1 * 1000); // Must wait 1 milisecond
+		i++;
+	}
+	printf("out\n");
+	if (i >= philo->rules->time_to_die)
+		philo->rules->set_died(philo->rules);
 	return ;
 }
 
