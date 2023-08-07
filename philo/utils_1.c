@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 16:06:53 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:36:45 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 	if (argc - 1 == 4)
 		rules->n_times_must_eat = -1;
 	i = 1;
-	while (i < argc - 1)
+	while (i < argc)
 	{
 		value = ft_atoi(argv[i]);
 		buffer = ft_itoa(value);
@@ -69,7 +69,7 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 		free(buffer);
 		i++;
 	}
-	rules->turn_time = attr[1] + attr[2] + attr[3];
+	rules->turn_time = attr[2] + attr[3];
 	rules->died = 0;
 }
 

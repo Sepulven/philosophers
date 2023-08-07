@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 15:58:48 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:36:28 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define EAT_MSG "is eating"
 # define NAP_MSG "is sleeping"
 # define THINK_MSG "is thinking"
-# define DIE_MSG "dies"
+# define DIE_MSG "died"
 
 typedef struct s_rules t_rules;
 typedef struct s_philo t_philo;
@@ -34,11 +34,12 @@ typedef struct s_philo t_philo;
 
 typedef struct s_philo
 {
-	int		id;
-	int		left_fork;
-	int		right_fork;
-	int		alive;
-	int		turn;
+	int			id;
+	int			left_fork;
+	int			right_fork;
+	int			alive;
+	int			turn;
+	long long	started_at;
 	t_rules	*rules;
 }	t_philo;
 

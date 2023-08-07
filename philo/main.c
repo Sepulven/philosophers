@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 16:05:23 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:36:39 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	
+	philo->started_at = get_time();
 	while (!get_died(philo->rules))
 	{	
 		if (pick_fork(philo))
+		{
+			eat(philo);
 			place_fork(philo);
-		// {
-			// eat(philo);
-		// 	nap(philo);
-		// }
-		// else
- 	 	// 	think(philo);
+			nap(philo);
+		}
+		else
+ 	 		think(philo);
 	}
 	return (NULL);
 }
@@ -84,7 +84,7 @@ int	main(int argc, char *argv[])
 	t_rules		rules;
 	long		i;
 	long		turn_id;
-
+	
 	i = 0;
 	turn_id = 0;
 	if (argc > 6 || argc < 5)

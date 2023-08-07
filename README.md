@@ -74,3 +74,21 @@ In order to have access to the posix manual we should install it as follow:
 ```
 sudo apt install manpages-posix-dev
 ```
+
+
+## Notes (07/07/2023)
+
+Evaluation Sheet:
+
+Do not test with more than 200 philosophers
+Do not test with time_to_die or time_to_eat or time_to_sleep under 60ms
+
+1 800 200 200, not eat and die
+5 800 200 200, not die
+5 800 200 200 7, not die and should stop when all philosophers has eaten atleast 7 times each
+4 410 200 200, not die
+4 310 200 100, die
+Test with 2 philosophers and check the different times (a death delayed by more than 10 ms is unacceptable)
+
+
+
