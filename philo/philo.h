@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 18:36:28 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:17:34 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_rules
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	long long		n_times_must_eat;
-	long long		turn_time;
+	long long		set_diedturn_time;
 	pthread_mutex_t	forks[300];
 	pthread_mutex_t	turn_mutex;
 	pthread_mutex_t	died_mutex;
@@ -71,8 +71,8 @@ void		set_rules(int argc, char *argv[], t_rules *rules);
 /*utils_2.c*/
 void		init_mutexes(t_rules *rules);
 void		destroy_mutexes(t_rules *rules);
-int			get_died(t_rules *rules);
-int			set_died(t_rules *rules);
+int			get_died(t_philo *philo);
+int			set_died(t_philo *philo);
 
 /*utils_3.c*/
 void		join_threads(t_rules *rules);

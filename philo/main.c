@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 18:36:39 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:28:56 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	pick_fork(t_philo *philo)
 	if	(!get_turn(philo) || get_fork_state(philo, philo->left_fork)
 		|| get_fork_state(philo, philo->right_fork))
 		return (0);
+
 	pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
 	set_fork_state(philo, philo->left_fork, 1);
 	print_message(philo, FORK_MSG);
@@ -45,8 +46,8 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->started_at = get_time();
-	while (!get_died(philo->rules))
-	{	
+	while (!philo->rules->died)
+	{
 		if (pick_fork(philo))
 		{
 			eat(philo);
@@ -54,7 +55,7 @@ void	*routine(void *arg)
 			nap(philo);
 		}
 		else
- 	 		think(philo);
+			think(philo);
 	}
 	return (NULL);
 }
@@ -84,7 +85,7 @@ int	main(int argc, char *argv[])
 	t_rules		rules;
 	long		i;
 	long		turn_id;
-	
+
 	i = 0;
 	turn_id = 0;
 	if (argc > 6 || argc < 5)
@@ -93,7 +94,7 @@ int	main(int argc, char *argv[])
 	init_mutexes(&rules);
 	set_philos(&rules);
 	init_philos(&rules);
- 	while (!get_died(&rules) && (rules.n_times_must_eat == -1 \
+ 	while (!rules.died && (rules.n_times_must_eat == -1 \
 	|| turn_id < rules.n_times_must_eat))
 	{
 		turn_id++;

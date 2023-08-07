@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 17:36:45 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:17:11 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 		free(buffer);
 		i++;
 	}
-	rules->turn_time = attr[2] + attr[3];
+	rules->turn_time = attr[2] P;
 	rules->died = 0;
 }
 

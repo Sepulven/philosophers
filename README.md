@@ -90,5 +90,7 @@ Do not test with time_to_die or time_to_eat or time_to_sleep under 60ms
 4 310 200 100, die
 Test with 2 philosophers and check the different times (a death delayed by more than 10 ms is unacceptable)
 
+Important: 
+ time_to_die (in milliseconds): If a philosopher didn’t start eating time_to_die milliseconds since the beginning of their last meal or the beginning of the simulation, they die.
 
 

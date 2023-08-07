@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:03:00 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 14:47:59 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:32:11 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,21 @@ void	destroy_mutexes(t_rules *rules)
 	pthread_mutex_destroy(&rules->fork_state_mutex);
 }
 
-int	get_died(t_rules *rules)
+int	get_died(t_philo *philo)
 {
 	int	state;
 
-	pthread_mutex_lock(&rules->died_mutex);
-	state = rules->died;
-	pthread_mutex_unlock(&rules->died_mutex);
+	pthread_mutex_lock(&philo->rules->died_mutex);
+	state = philo->rules->died;
+	pthread_mutex_unlock(&philo->rules->died_mutex);
 	return (state);
 }
-int	set_died(t_rules *rules)
+int	set_died(t_philo *philo)
 {
-	pthread_mutex_lock(&rules->died_mutex);
-	rules->died = 1;
-	pthread_mutex_unlock(&rules->died_mutex);
+	pthread_mutex_lock(&philo->rules->died_mutex);
+	// print_message(philo, DIE_MSG);
+	philo->rules->died = 1;
+	pthread_mutex_unlock(&philo->rules->died_mutex);
 	return (1);
 }
 
