@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:03:00 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/06 14:20:33 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/07 14:47:59 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_mutexes(t_rules *rules)
 	pthread_mutex_init(&rules->turn_mutex, NULL);
 	pthread_mutex_init(&rules->died_mutex, NULL);
 	pthread_mutex_init(&rules->print_mutex, NULL);
+	pthread_mutex_init(&rules->fork_state_mutex, NULL);
 }
 
 void	destroy_mutexes(t_rules *rules)
@@ -46,6 +47,7 @@ void	destroy_mutexes(t_rules *rules)
 	pthread_mutex_destroy(&rules->turn_mutex);
 	pthread_mutex_destroy(&rules->died_mutex);
 	pthread_mutex_destroy(&rules->print_mutex);
+	pthread_mutex_destroy(&rules->fork_state_mutex);
 }
 
 int	get_died(t_rules *rules)
