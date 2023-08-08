@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/08 14:11:06 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:30:36 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	set_turns(t_rules *rules, int turn)
 	t_philo	*this;
 
 	i = 0;
-	pthread_mutex_lock(&rules->turn_mutex);
+	pthread_mutex_lock(&rules->turn_mutex	);
 	while (i < rules->n_philos)
 	{
 		this = &rules->philos_arg[i];
@@ -112,19 +112,16 @@ int	main(int argc, char *argv[])
 	set_rules(argc, argv, &rules);
 	init_mutexes(&rules);
 	set_philos(&rules);
+	set_turns(&rules, 0);
 	init_philos(&rules);
  	while (!rules.died && (rules.n_times_must_eat == -1 \
 	|| turn_id < rules.n_times_must_eat))
 	{
-		// printf(" %ld \n----------------------------------\n", turn_id);
+		usleep(rules.time_to_eat * 1000);
 		turn_id++;
 		set_turns(&rules, i++);
 		if (i == rules.n_philos)
 			i = 0;
-		// log_philos(&rules);
-		// printf("%d\n", rules.philos_arg[0].turn);`
-		usleep(rules.time_to_eat * 1000);
-		// usleep(1000000);
 	}
 	join_threads(&rules);
 	destroy_mutexes(&rules);
