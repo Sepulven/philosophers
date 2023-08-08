@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:18:30 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 21:19:00 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:07:11 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_message(t_philo *philo,  const char *message)
 	(void)philo;
 	(void)message;
 	// pthread_mutex_lock(&philo->rules->print_mutex);
-	printf("%05llu %d %s\n", get_time(), philo->id, message);
+	printf("%05llu %d %s\n", get_time(), philo->id + 1, message);
 	// pthread_mutex_unlock(&philo->rules->print_mutex);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 22:16:12 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:06:51 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	ft_usleep(long long x, t_philo *philo)
 	{
 		if (get_time() - philo->started_at >= time_to_die)
 		{
-			if (!philo->rules->died)
-				philo->rules->died = 1;
+			philo->rules->died = 1;
 			break ;
 		}
 		usleep(100);
@@ -59,8 +58,7 @@ void	think(t_philo *philo)
 			print_message(philo, THINK_MSG);
 		if (get_time() - philo->started_at >= time_to_die)
 		{
-			if (!philo->rules->died)
-				philo->rules->died = 1;
+			philo->rules->died = 1;
 			break;
 		}
 		ft_usleep(1, philo);

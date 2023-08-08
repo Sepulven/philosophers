@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 22:28:56 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:11:06 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,19 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+int	even_turn(int turn_id, int philo_id)
+{
+	return (turn_id % 2 == 0 && philo_id % 2 == 0);
+}
+
+int	odd_turn(int turn_id, int philo_id)
+{
+	return (turn_id % 2 != 0 && philo_id % 2 != 0);
+}
+
 void	set_turns(t_rules *rules, int turn)
 {
-	int	i;
+	int		i;
 	t_philo	*this;
 
 	i = 0;
@@ -70,11 +80,20 @@ void	set_turns(t_rules *rules, int turn)
 	while (i < rules->n_philos)
 	{
 		this = &rules->philos_arg[i];
-		if (((turn % 2 == 0) && (i % 2 == 0)) 
-			|| ((turn % 2 != 0) && (i % 2 != 0)))
-			this->turn = 1;
-		else
+		if (rules->n_philos % 2 == 0 && turn % 2 == 0)
+			this->turn = even_turn(turn, i);
+		else if (rules->n_philos % 2 == 0 && turn % 2 != 0)
+			this->turn = odd_turn(turn, i);
+		else if (rules->n_philos % 2 != 0 && i == turn)
 			this->turn = 0;
+		else if (rules->n_philos % 2 != 0 && i < turn && turn % 2 == 0)
+			this->turn = even_turn(turn, i);
+		else if (rules->n_philos % 2 != 0 && i < turn && turn % 2 != 0)
+			this->turn = odd_turn(turn, i);
+		else if (rules->n_philos % 2 != 0 && i > turn && turn % 2 == 0)
+			this->turn = odd_turn(turn + 1, i);
+		else if (rules->n_philos % 2 != 0 && i > turn && turn % 2 != 0)
+			this->turn = even_turn(turn + 1, i);
 		i++;
 	}
 	pthread_mutex_unlock(&rules->turn_mutex);
@@ -97,11 +116,15 @@ int	main(int argc, char *argv[])
  	while (!rules.died && (rules.n_times_must_eat == -1 \
 	|| turn_id < rules.n_times_must_eat))
 	{
+		// printf(" %ld \n----------------------------------\n", turn_id);
 		turn_id++;
 		set_turns(&rules, i++);
 		if (i == rules.n_philos)
 			i = 0;
-		usleep(rules.turn_time * 1000);
+		// log_philos(&rules);
+		// printf("%d\n", rules.philos_arg[0].turn);`
+		usleep(rules.time_to_eat * 1000);
+		// usleep(1000000);
 	}
 	join_threads(&rules);
 	destroy_mutexes(&rules);

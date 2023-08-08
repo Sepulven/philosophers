@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 22:17:11 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:09:37 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,12 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 		free(buffer);
 		i++;
 	}
-	rules->turn_time = attr[2] P;
 	rules->died = 0;
 }
 
 void	init_philos(t_rules *rules)
 {
-	long			i;
+	long	i;
 
 	i = 0;
 	while (i < rules->n_philos)
