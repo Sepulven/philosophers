@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/09 15:32:40 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:56:34 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	main(int argc, char *argv[])
 	set_rules(argc, argv, &rules);
 	init_mutexes(&rules);
 	set_philos(&rules);
-	set_turns(&rules, 0);
 	gettimeofday(&t, NULL);
 	rules.started_at = (t.tv_sec * 1000) + (t.tv_usec / 1000);
 	init_philos(&rules);
