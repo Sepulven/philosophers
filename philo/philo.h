@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 22:17:34 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:53:49 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ typedef struct s_philo
 	int			id;
 	int			left_fork;
 	int			right_fork;
-	int			alive;
+	int			died;
 	int			turn;
 	long long	started_at;
-	t_rules	*rules;
+	t_rules		*rules;
+	pthread_mutex_t turn_mutex;
 }	t_philo;
 
 typedef struct s_rules
@@ -52,7 +53,6 @@ typedef struct s_rules
 	long long		n_times_must_eat;
 	long long		set_diedturn_time;
 	pthread_mutex_t	forks[300];
-	pthread_mutex_t	turn_mutex;
 	pthread_mutex_t	died_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	fork_state_mutex;

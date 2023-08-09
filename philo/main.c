@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/08 14:42:11 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:53:52 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->started_at = get_time();
-	while (!philo->rules->died)
+	while (!philo->died)
 	{
 		if (pick_fork(philo))
 		{
@@ -73,30 +73,26 @@ int	odd_turn(int turn_id, int philo_id)
 void	set_turns(t_rules *rules, int turn)
 {
 	int		i;
-	t_philo	*this;
+	int		result;
 
 	i = 0;
-	pthread_mutex_lock(&rules->turn_mutex	);
 	while (i < rules->n_philos)
 	{
-		this = &rules->philos_arg[i];
-		if (rules->n_philos % 2 == 0 && turn % 2 == 0)
-			this->turn = even_turn(turn, i);
-		else if (rules->n_philos % 2 == 0 && turn % 2 != 0)
-			this->turn = odd_turn(turn, i);
+		if ((rules->n_philos % 2 == 0 && turn % 2 == 0)
+			|| (rules->n_philos % 2 != 0 && i < turn && turn % 2 == 0))
+			result = even_turn(turn, i);
+		else if ((rules->n_philos % 2 == 0 && turn % 2 != 0)
+			|| (rules->n_philos % 2 != 0 && i < turn && turn % 2 != 0))
+			result = odd_turn(turn, i);
 		else if (rules->n_philos % 2 != 0 && i == turn)
-			this->turn = 0;
-		else if (rules->n_philos % 2 != 0 && i < turn && turn % 2 == 0)
-			this->turn = even_turn(turn, i);
-		else if (rules->n_philos % 2 != 0 && i < turn && turn % 2 != 0)
-			this->turn = odd_turn(turn, i);
+			result = 0;
 		else if (rules->n_philos % 2 != 0 && i > turn && turn % 2 == 0)
-			this->turn = odd_turn(turn + 1, i);
+			result = odd_turn(turn + 1, i);
 		else if (rules->n_philos % 2 != 0 && i > turn && turn % 2 != 0)
-			this->turn = even_turn(turn + 1, i);
+			result = even_turn(turn + 1, i);
+		set_turn(&rules->philos_arg[i], result);
 		i++;
 	}
-	pthread_mutex_unlock(&rules->turn_mutex);
 }
 
 int	main(int argc, char *argv[])
