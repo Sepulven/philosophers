@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:28:21 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/07 14:54:00 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:49:03 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int get_turn(t_philo* philo)
 {
     int state;
 
-    pthread_mutex_lock(&(philo->rules->turn_mutex));
+    pthread_mutex_lock(&(philo->turn_mutex));
     state = philo->turn;
-    pthread_mutex_unlock(&(philo->rules->turn_mutex));
+    pthread_mutex_unlock(&(philo->turn_mutex));
     return (state);
 }
 
 int set_turn(t_philo* philo, int value)
 {
-    pthread_mutex_lock(&philo->rules->turn_mutex);
+    pthread_mutex_lock(&philo->turn_mutex);
     philo->turn = value;
-    pthread_mutex_unlock(&philo->rules->turn_mutex);
+    pthread_mutex_unlock(&philo->turn_mutex);
     return (1);
 }
 
