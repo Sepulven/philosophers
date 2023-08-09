@@ -95,4 +95,8 @@ Important:
 
 ## Notes (09/07/2023)
 
+To make life easier:
+	gcc -g -fsanitize=thread *.c && ./a.out 4 310 200 100
 
+In order to avoid the potential dead-lock error for philosopher with an odd index
+take the from left to right, for philosopher with an even index right to left.

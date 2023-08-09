@@ -4,7 +4,7 @@ CC			=	cc
 CFLAGS 		=	-Wall -Werror -Wextra -fPIE
 INCLUDES	=	-lpthread
 SRC			=	main.c actions.c converters.c string.c loggers.c\
-				mutexes.c utils_4.c utils.c inits_sets.c
+				mutexes.c get_sets_mutexes.c utils.c inits_sets.c turns.c
 OBJ			=	$(SRC:.c=.o)
 
 %.o: %.c

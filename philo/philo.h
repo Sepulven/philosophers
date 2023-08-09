@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/09 13:53:49 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:13:43 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
 	int			right_fork;
 	int			died;
 	int			turn;
+	long long	i;
 	long long	started_at;
 	t_rules		*rules;
 	pthread_mutex_t turn_mutex;
@@ -51,7 +52,7 @@ typedef struct s_rules
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	long long		n_times_must_eat;
-	long long		set_diedturn_time;
+	long long		started_at;
 	pthread_mutex_t	forks[300];
 	pthread_mutex_t	died_mutex;
 	pthread_mutex_t	print_mutex;
@@ -62,22 +63,27 @@ typedef struct s_rules
 	pthread_t		philos[300];
 }	t_rules;
 
-/*utils_1.c*/
-long long	get_time(void);
+/*inits_sets.c*/
 void		set_philos(t_rules *rules);
 void		init_philos(t_rules *rules);
 void		set_rules(int argc, char *argv[], t_rules *rules);
 
-/*utils_2.c*/
+/*mutexes.c*/
 void		init_mutexes(t_rules *rules);
 void		destroy_mutexes(t_rules *rules);
 int			get_died(t_philo *philo);
 int			set_died(t_philo *philo);
 
-/*utils_3.c*/
-void		join_threads(t_rules *rules);
+/*turns.c*/
+void		set_turns(t_rules *rules, int turn);
 
-/*utils_4.c*/
+/*utils.c*/
+void		join_threads(t_rules *rules);
+long long	get_time(t_philo *philo);
+int			ft_usleep(long long x, t_philo *philo);
+
+
+/*get_sets_mutexes.c*/
 int			get_turn(t_philo* philo);
 int			set_turn(t_philo* philo, int value);
 int			get_fork_state(t_philo* philo, int fork);
@@ -96,7 +102,7 @@ size_t		ft_strlen(const char *str);
 
 /*loggers.c*/
 void		log_philos(t_rules *rules);
-void		print_message(t_philo *philo, const char *message);
+int			print_message(t_philo *philo, const char *message);
 
 /*converters.c*/
 void		*ft_memcpy(void *dest, const void *src, size_t n);
