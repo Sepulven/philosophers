@@ -93,4 +93,6 @@ Test with 2 philosophers and check the different times (a death delayed by more 
 Important: 
  time_to_die (in milliseconds): If a philosopher didn’t start eating time_to_die milliseconds since the beginning of their last meal or the beginning of the simulation, they die.
 
+## Notes (09/07/2023)
+
 
