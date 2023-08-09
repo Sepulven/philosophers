@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/09 16:04:24 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:13:43 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
 	int			right_fork;
 	int			died;
 	int			turn;
+	long long	i;
 	long long	started_at;
 	t_rules		*rules;
 	pthread_mutex_t turn_mutex;

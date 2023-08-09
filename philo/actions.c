@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/08/09 17:03:52 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:12:52 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	eat(t_philo *philo)
 	philo->started_at = get_time(philo);
 	print_message(philo, EAT_MSG);
 	ft_usleep(philo->rules->time_to_eat, philo);
+	philo->i++;
 }
 
 void	nap(t_philo *philo)
