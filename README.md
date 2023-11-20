@@ -100,3 +100,9 @@ To make life easier:
 
 In order to avoid the potential dead-lock error for philosopher with an odd index
 take the from left to right, for philosopher with an even index right to left.
+
+## Notes (20/11/2023)
+
+Turn information:
+	I will consider a turn the time that a philo takes to eat.
+	Therefore the current turn is equal to get_time() divided by the times it takes to eat.
