@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/20 16:56:12 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:53:02 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define NAP_MSG "is sleeping"
 # define THINK_MSG "is thinking"
 # define DIE_MSG "died"
+
+# define DEBUG write(1, "DEBUG1\n", 8);
+# define OK write(1, "OK\n", 3);
 
 typedef struct s_rules	t_rules;
 typedef struct s_philo	t_philo;

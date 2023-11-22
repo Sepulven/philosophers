@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/20 17:08:51 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:49:10 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ void	nap(t_philo *philo)
 	print_message(philo, NAP_MSG);
 	ft_usleep(philo->rules->time_to_sleep, philo);
 }
+/*
+NOTE: If it is a even turn then the even philosophers must eat
+*/
+int	even(t_philo *philo, int turn)
+{
+	return ((turn % 2 == 0 && philo->id % 2 == 0) 
+		|| (turn % 2 != 0 && philo->id % 2 != 0));
+}
 
 void	my_turn(t_philo *philo)
 {
@@ -41,34 +49,25 @@ void	my_turn(t_philo *philo)
 	rules = philo->rules;
 	n_philos = rules->n_philos;
 	if (n_philos % 2 == 0)
-	{
-		if ((philo->id < turn && philo->id % 2 == 0) 
-			|| (philo->id > turn && philo->id % 2 != 0))
-			philo->turn = 1;
-		if ((philo->id < turn && philo->id % 2 != 0) 
-			|| (philo->id > turn && philo->id % 2 == 0))
-			philo->turn = 0;
-	}
+		philo->turn = even(philo, turn);
 	if (n_philos % 2 != 0)
 	{
-		if ((philo->id < turn && philo->id % 2 == 0)
-			||(philo->id > turn && philo->id % 2 != 0))
-			philo->turn =  0;
-		if ((philo->id < turn && philo->id % 2 != 0) 
-			|| (philo->id > turn && philo->id % 2 == 0))
-			philo->turn = 1;
+		if (philo->id < turn)
+			philo->turn = even(philo, turn);
+		if (philo->id > turn)
+			philo->turn = even(philo, turn + 1);
+		if (philo->id == turn)
+			philo->turn = 0;
 	}
-	if (philo->id == turn)
-		philo->turn = 0;
+	// printf("%d\n", philo->turn_counter);
+	printf("[%d]%d : %d\n", philo->id, philo->turn, philo->turn_counter);
 }
 
 void	think(t_philo *philo)
 {
 	long long	i;
-	long long	time_to_die;
 
 	i = 0;
-	time_to_die = philo->rules->time_to_die;
 	if (philo->died)
 		return ;
 	while (!philo->turn && ft_usleep(1, philo))

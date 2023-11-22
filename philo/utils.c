@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/20 17:05:19 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:41:35 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,20 @@ void	check_any_died(t_philo *philo)
 int	ft_usleep(long long x, t_philo *philo)
 {
 	long long	started;
-	long long	time_to_die;
 
-	time_to_die = philo->rules->time_to_die;
 	started = get_time(philo);
 	while (get_time(philo) - started < x)
 	{
 		if (philo->turn_timer >= philo->rules->time_to_eat )
 		{
-			if (philo->turn_counter >= philo->rules->n_philos - 1)
-				philo->turn_counter = 0;	
+			if (philo->turn_counter == philo->rules->n_philos - 1)
+				philo->turn_counter = 0;
 			else
 				philo->turn_counter++;
 			philo->turn_timer = 0;
 		}
-		if (get_time(philo) - philo->started_at >= time_to_die)
-		{
-			check_any_died(philo);
-			return (0);
-		}
 		philo->turn_timer++;
-		usleep(100);
+		usleep(1000);
 	}
 	return (1);
 }
