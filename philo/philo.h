@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 16:44:53 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 23:15:54 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philo
 	int			turn_timer;
 	long long	ate;
 	long long	started_at;
+	long long	started_turn;
 	t_rules		*rules;
 }	t_philo;
 

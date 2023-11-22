@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 23:02:13 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 23:19:20 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->started_at = get_time(philo);
+	philo->turn_timer =  get_time(philo);
 	philo->turn = 0;
 	// while (!philo->died 
 	// 	&& (philo->rules->n_times_must_eat == -1
