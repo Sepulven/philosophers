@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 16:32:51 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:30:21 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ int	ft_usleep(long long x, t_philo *philo)
 				philo->turn_counter = 0;
 			else
 				philo->turn_counter++;
+			if (philo->id == 1)
+				printf("%d %d %05llu\n", philo->id, philo->turn_timer, get_time(philo));
 			philo->turn_timer = 0;
 		}
-		philo->turn_timer++;
+		philo->turn_timer += 1;
 		usleep(1000);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 16:25:14 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:30:30 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void	think(t_philo *philo)
 		return ;
 	if (!my_turn(philo))
 		print_message(philo, THINK_MSG);
+	if (philo->id == 1)
+		printf("\n------\n 2 began to think %05llu \n-------\n", get_time(philo));
 	while (!my_turn(philo))
 		ft_usleep(1, philo);
+	if (philo->id == 1)
+		printf("\n------\n 2 finished thinking %05llu \n-------\n", get_time(philo));
 }

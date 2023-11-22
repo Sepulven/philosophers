@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 16:42:31 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:19:00 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,11 @@ void	*routine(void *arg)
 			nap(philo);
 		}
 		else
+		{
 			think(philo);
+			if (philo->id == 1)
+					printf("\n------\n 2 has taken a fork %05llu \n-------\n", get_time(philo));	
+		}
 	}
 	return (NULL);
 }
@@ -68,11 +72,12 @@ int	main(int argc, char *argv[])
 	i = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&rules.died_mutex);
-		if (rules.died)
-			break;
-		pthread_mutex_unlock(&rules.died_mutex);
-		usleep(100);
+		(void)i;
+		// pthread_mutex_lock(&rules.died_mutex);
+		// if (rules.died)
+		// 	break;
+		// pthread_mutex_unlock(&rules.died_mutex);
+		// usleep(100);
 	}
 	i = rules.philo_that_died;
 	pthread_mutex_unlock(&rules.died_mutex);
