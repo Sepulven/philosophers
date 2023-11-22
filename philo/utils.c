@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 15:28:09 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:32:51 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	detach_threads(t_rules *rules)
 {
 	int	i;
 
-	i = 0;
+	i = 0;	
 	while (i < rules->n_philos)
 		pthread_detach(rules->philos[i++]);
 }

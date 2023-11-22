@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 15:47:20 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:42:31 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,17 @@ void	*routine(void *arg)
 	{
 		if (philo->turn)
 		{
-			pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
+			if (philo->id %2 == 0)
+			{
+				pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
+				pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
+			}
+			if (philo->id % 2 != 0)
+			{
+				pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
+				pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
+			}
 			print_message(philo, FORK_MSG);
-			pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
 			print_message(philo, FORK_MSG);
 
 			eat(philo);
@@ -54,7 +62,6 @@ int	main(int argc, char *argv[])
 	set_rules(argc, argv, &rules);
 	if (rules.n_philos > 200)
 		exit(1);
-	init_mutexes(&rules);
 	set_philos(&rules);
 	init_philos(&rules);
 	detach_threads(&rules);

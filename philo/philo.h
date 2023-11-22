@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 15:48:17 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:44:53 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,36 +55,27 @@ typedef struct s_rules
 	long long		time_to_sleep;
 	long long		n_times_must_eat;
 	long long		started_at;
-	int				forks_state[300];
 	int				died;
 	int				philo_that_died;
 	pthread_mutex_t	died_mutex;
 	pthread_mutex_t	forks[300];
-	pthread_mutex_t	fork_state_mutex[300];
 	t_philo			philos_arg[300];
 	pthread_t		philos[300];
 }	t_rules;
+
+/*mutexes.c*/
+void	init_mutexes(t_rules *rules);
+void	destroy_mutexes(t_rules *rules);
 
 /*inits_sets.c*/
 void		set_philos(t_rules *rules);
 void		init_philos(t_rules *rules);
 void		set_rules(int argc, char *argv[], t_rules *rules);
 
-/*mutexes.c*/
-void		init_mutexes(t_rules *rules);
-void		destroy_mutexes(t_rules *rules);
-int			get_died(t_philo *philo);
-int			set_died(t_philo *philo);
-
-
 /*utils.c*/
 void		detach_threads(t_rules *rules);
 long long	get_time(t_philo *philo);
 int			ft_usleep(long long x, t_philo *philo);
-
-/*get_sets_mutexes.c*/
-int			get_fork_state(t_philo *philo, int fork);
-int			set_fork_state(t_philo *philo, int fork, int value);
 
 /*actions.c*/
 void		eat(t_philo *philo);

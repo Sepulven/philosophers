@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 15:43:55 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:25:14 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ void	think(t_philo *philo)
 		return ;
 	if (!my_turn(philo))
 		print_message(philo, THINK_MSG);
-	while (!philo->turn)
-	{
-		my_turn(philo);
+	while (!my_turn(philo))
 		ft_usleep(1, philo);
-	}
 }
