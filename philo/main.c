@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 17:19:00 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 23:02:13 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*routine(void *arg)
 	// 	|| philo->ate < philo->rules->n_times_must_eat))
 	while(1)
 	{
-		if (philo->turn)
+		if (my_turn(philo))
 		{
 			if (philo->id %2 == 0)
 			{
@@ -43,14 +43,12 @@ void	*routine(void *arg)
 
 			pthread_mutex_unlock(&philo->rules->forks[philo->left_fork]);
 			pthread_mutex_unlock(&philo->rules->forks[philo->right_fork]);
-			
+		
 			nap(philo);
 		}
 		else
 		{
 			think(philo);
-			if (philo->id == 1)
-					printf("\n------\n 2 has taken a fork %05llu \n-------\n", get_time(philo));	
 		}
 	}
 	return (NULL);
