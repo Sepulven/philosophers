@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 13:53:02 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:48:17 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		nap(t_philo *philo);
 void		think(t_philo *philo);
 int			pick_fork(t_philo *philo);
 int			place_fork(t_philo *philo);
-void		my_turn(t_philo *philo);
+int			my_turn(t_philo *philo);
 
 /*string.c*/
 int			ft_strncmp(const char *s1, const char *s2, size_t n);

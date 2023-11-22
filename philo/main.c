@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 14:40:36 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:47:20 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,28 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->started_at = get_time(philo);
-	// my_turn(philo);
+	philo->turn = 0;
 	// while (!philo->died 
 	// 	&& (philo->rules->n_times_must_eat == -1
 	// 	|| philo->ate < philo->rules->n_times_must_eat))
 	while(1)
 	{
-		// if (pick_fork(philo))
-		// {
-		// 	eat(philo);
-		// 	place_fork(philo);
-		// 	nap(philo);
-		// }
-		// else
-		// 	think(philo);
-		ft_usleep(philo->rules->time_to_eat, philo);
-		my_turn(philo);
+		if (philo->turn)
+		{
+			pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
+			print_message(philo, FORK_MSG);
+			pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
+			print_message(philo, FORK_MSG);
+
+			eat(philo);
+
+			pthread_mutex_unlock(&philo->rules->forks[philo->left_fork]);
+			pthread_mutex_unlock(&philo->rules->forks[philo->right_fork]);
+			
+			nap(philo);
+		}
+		else
+			think(philo);
 	}
 	return (NULL);
 }

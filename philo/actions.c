@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 14:49:10 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:43:55 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	eat(t_philo *philo)
 	philo->started_at = get_time(philo);
 	print_message(philo, EAT_MSG);
 	ft_usleep(philo->rules->time_to_eat, philo);
-	philo->turn = 0;
 	philo->ate++;
 }
 
@@ -39,7 +38,7 @@ int	even(t_philo *philo, int turn)
 		|| (turn % 2 != 0 && philo->id % 2 != 0));
 }
 
-void	my_turn(t_philo *philo)
+int	my_turn(t_philo *philo)
 {
 	t_rules 		*rules;
 	int				n_philos;
@@ -59,50 +58,18 @@ void	my_turn(t_philo *philo)
 		if (philo->id == turn)
 			philo->turn = 0;
 	}
-	// printf("%d\n", philo->turn_counter);
-	printf("[%d]%d : %d\n", philo->id, philo->turn, philo->turn_counter);
+	return (philo->turn);
 }
 
 void	think(t_philo *philo)
 {
-	long long	i;
-
-	i = 0;
 	if (philo->died)
 		return ;
-	while (!philo->turn && ft_usleep(1, philo))
+	if (!my_turn(philo))
+		print_message(philo, THINK_MSG);
+	while (!philo->turn)
 	{
-		if (i == 0)
-		{
-			print_message(philo, THINK_MSG);
-			i = 1;
-		}
 		my_turn(philo);
+		ft_usleep(1, philo);
 	}
-}
-
-int	pick_fork(t_philo *philo)
-{
-	if (!philo->turn || get_fork_state(philo, philo->left_fork) \
-		|| get_fork_state(philo, philo->right_fork))
-		return (0);
-	pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
-	set_fork_state(philo, philo->left_fork, 1);
-	print_message(philo, FORK_MSG);
-	pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
-	set_fork_state(philo, philo->right_fork, 1);
-	print_message(philo, FORK_MSG);
-	return (1);
-}
-
-int	place_fork(t_philo *philo)
-{
-	if (!get_fork_state(philo, philo->left_fork)
-		&& !get_fork_state(philo, philo->right_fork))
-		return (0);
-	set_fork_state(philo, philo->left_fork, 0);
-	pthread_mutex_unlock(&philo->rules->forks[philo->left_fork]);
-	set_fork_state(philo, philo->right_fork, 0);
-	pthread_mutex_unlock(&philo->rules->forks[philo->right_fork]);
-	return (1);
 }
