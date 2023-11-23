@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 12:56:05 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:20:16 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	detach_threads(t_rules *rules)
 {
 	int	i;
 
-	i = 0;	
+	i = 0;
 	while (i < rules->n_philos)
 		pthread_detach(rules->philos[i++]);
 }
@@ -37,13 +37,13 @@ int	check_any_died(t_philo *philo)
 
 	rules = philo->rules;
 	philo->died = 1;
-	pthread_mutex_lock(&rules->died_mutex);
+	pthread_mutex_lock(&rules->rules_mutex);
 	if (!rules->died)
 	{
 		rules->died = 1;
 		rules->philo_that_died = philo->id;
 	}
-	pthread_mutex_unlock(&rules->died_mutex);
+	pthread_mutex_unlock(&rules->rules_mutex);
 	return (0);
 }
 

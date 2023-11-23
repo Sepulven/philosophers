@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 12:54:13 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:20:05 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	*routine(void *arg)
 		else
 			think(philo);
 	}
+	pthread_mutex_lock(&philo->rules->rules_mutex);
+		philo->rules->n_philos_ate++;
+	pthread_mutex_unlock(&philo->rules->rules_mutex);
 	return (NULL);
 }
 
@@ -67,17 +70,20 @@ int	main(int argc, char *argv[])
 	detach_threads(&rules);
 	i = 0;
 	rules.died = 0;
+	rules.n_philos_ate= 0;
+	rules.philo_that_died = -1;
 	while (1)
 	{
-		pthread_mutex_lock(&rules.died_mutex);
-		if (rules.died)
-			break;
-		pthread_mutex_unlock(&rules.died_mutex);
+		pthread_mutex_lock(&rules.rules_mutex);
+		if (rules.died || rules.n_philos_ate == rules.n_philos)
+			break ;
+		pthread_mutex_unlock(&rules.rules_mutex);
 		usleep(100);
 	}
 	i = rules.philo_that_died;
-	pthread_mutex_unlock(&rules.died_mutex);
-	print_message(&rules.philos_arg[i], DIE_MSG);
+	if (i != -1)
+		print_message(&rules.philos_arg[i], DIE_MSG);
+	pthread_mutex_unlock(&rules.rules_mutex);
 	destroy_mutexes(&rules);
 	return (0);
 }

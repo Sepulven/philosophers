@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 12:55:10 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:19:42 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ typedef struct s_rules
 	long long		started_at;
 	int				died;
 	int				philo_that_died;
-	pthread_mutex_t	died_mutex;
+	int				n_philos_ate;
+	pthread_mutex_t	rules_mutex;
 	pthread_mutex_t	forks[300];
 	t_philo			philos_arg[300];
 	pthread_t		philos[300];
