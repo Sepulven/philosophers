@@ -106,3 +106,20 @@ take the from left to right, for philosopher with an even index right to left.
 Turn information:
 	I will consider a turn the time that a philo takes to eat.
 	Therefore the current turn is equal to get_time() divided by the times it takes to eat.
+
+
+## Notes (22/11/2023)
+
+### valgrind --tool=helgrind ./philo
+### gcc *.c -fsanitize=thread -pthread
+	To use the threads debuggers.
+
+	In order to avoid of possible dead locks, which is not the case. We shall lock the philo mutex in the following order.
+	If the philo index is even, first left then right.
+	If the philo index is odd, first right then left.
+	I don't have enough information to know why it happens, but thanks good someone helped me out with this one.
+
+## Notes (23/11/2023)
+
+	Values to test [even_number] 410 200 200
+				   [odd_number] 800 200 200
