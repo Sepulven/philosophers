@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 15:16:20 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:53:10 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,8 @@ typedef struct s_rules
 	pthread_t		philos[300];
 }	t_rules;
 
-/*mutexes.c*/
-void			init_mutexes(t_rules *rules);
-void			destroy_mutexes(t_rules *rules);
-
 /*utils.c*/
+void			mutexes(t_rules *rules, char c);
 int				check_any_died(t_philo *philo);
 void			detach_threads(t_rules *rules);
 long long		get_time(t_philo *philo);
@@ -76,15 +73,11 @@ int				ft_usleep(long long x, t_philo *philo);
 void			eat(t_philo *philo);
 void			nap(t_philo *philo);
 void			think(t_philo *philo);
-int				pick_fork(t_philo *philo);
-int				place_fork(t_philo *philo);
 int				my_turn(t_philo *philo);
 
-/*string.c*/
+/*loggers.c*/
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t			ft_strlen(const char *str);
-
-/*loggers.c*/
 void			log_philos(t_rules *rules);
 int				print_message(t_philo *philo, const char *message);
 
@@ -94,5 +87,5 @@ int				ft_atoi(const char *nptr);
 char			*ft_itoa(int n);
 
 /*main.c*/
-void			*routine(void *arg);
+void	*routine(void *arg);
 #endif

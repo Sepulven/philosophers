@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 15:13:26 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:52:38 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int	main(int argc, char *argv[])
 	set_rules(argc, argv, &rules);
 	if (rules.n_philos > 200)
 		exit(1);
+	mutexes(&rules, 'i');
 	set_philos(&rules);
 	init_philos(&rules);
 	detach_threads(&rules);
@@ -127,6 +128,6 @@ int	main(int argc, char *argv[])
 	if (rules.philo_that_died != -1)
 		print_message(&rules.philos_arg[rules.philo_that_died], DIE_MSG);
 	pthread_mutex_unlock(&rules.rules_mutex);
-	destroy_mutexes(&rules);
+	mutexes(&rules, 'd');
 	return (0);
 }

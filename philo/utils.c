@@ -6,11 +6,25 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 15:16:49 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:50:09 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
+
+void	mutexes(t_rules *rules, char c)
+{
+	int	i;
+
+	i = 0;
+	while (i < rules->n_philos)
+	{
+		if (c == 'i')
+			pthread_mutex_init(&rules->forks[i++], NULL);
+		if (c == 'd')
+			pthread_mutex_destroy(&rules->forks[i++]);
+	}
+}
 
 long long	get_time(t_philo *philo)
 {
