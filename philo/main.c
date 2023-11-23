@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 12:32:31 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:54:13 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ void	*routine(void *arg)
 	philo->turn = 0;
 	philo->started_at = get_time(philo);
 	philo->turn_timer =  get_time(philo);
-	// while (!philo->died 
-	// 	&& (philo->rules->n_times_must_eat == -1
-	// 	|| philo->ate < philo->rules->n_times_must_eat))
-	while(1)
+	while (!philo->died 
+		&& (philo->rules->n_times_must_eat == -1
+		|| philo->ate < philo->rules->n_times_must_eat))
 	{
 		if (my_turn(philo))
 		{
@@ -67,14 +66,14 @@ int	main(int argc, char *argv[])
 	init_philos(&rules);
 	detach_threads(&rules);
 	i = 0;
+	rules.died = 0;
 	while (1)
 	{
-		(void)i;
-		// pthread_mutex_lock(&rules.died_mutex);
-		// if (rules.died)
-		// 	break;
-		// pthread_mutex_unlock(&rules.died_mutex);
-		// usleep(100);
+		pthread_mutex_lock(&rules.died_mutex);
+		if (rules.died)
+			break;
+		pthread_mutex_unlock(&rules.died_mutex);
+		usleep(100);
 	}
 	i = rules.philo_that_died;
 	pthread_mutex_unlock(&rules.died_mutex);

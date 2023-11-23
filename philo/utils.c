@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 23:20:35 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:56:05 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,28 @@ void	detach_threads(t_rules *rules)
 		pthread_detach(rules->philos[i++]);
 }
 
-void	check_any_died(t_philo *philo)
+int	check_any_died(t_philo *philo)
 {
 	t_rules	*rules;
-	int		i;
 
 	rules = philo->rules;
-	i = 0;
-	while (i < rules->n_philos)
-	{
-		pthread_mutex_lock(&philo->rules->died_mutex);
-		if (i != philo->id && rules->died)
-		{
-			rules->philo_that_died = i;
-			pthread_mutex_unlock(&philo->rules->died_mutex);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->rules->died_mutex);
-		i++;
-	}
 	philo->died = 1;
+	pthread_mutex_lock(&rules->died_mutex);
+	if (!rules->died)
+	{
+		rules->died = 1;
+		rules->philo_that_died = philo->id;
+	}
+	pthread_mutex_unlock(&rules->died_mutex);
+	return (0);
 }
 
 int	ft_usleep(long long x, t_philo *philo)
 {
 	long long	started;
+	long long	time_to_die;
 
+	time_to_die = philo->rules->time_to_die;
 	started = get_time(philo);
 	while (get_time(philo) - started < x)
 	{
@@ -68,6 +64,8 @@ int	ft_usleep(long long x, t_philo *philo)
 				philo->turn_counter++;
 			philo->turn_timer = get_time(philo);
 		}
+		if (get_time(philo) - philo->started_at >= time_to_die)
+			return (check_any_died(philo));
 		usleep(100);
 	}
 	return (1);

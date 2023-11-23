@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 23:15:54 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:55:10 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void		init_philos(t_rules *rules);
 void		set_rules(int argc, char *argv[], t_rules *rules);
 
 /*utils.c*/
+int			check_any_died(t_philo *philo);
 void		detach_threads(t_rules *rules);
 long long	get_time(t_philo *philo);
 int			ft_usleep(long long x, t_philo *philo);
