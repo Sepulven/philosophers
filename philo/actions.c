@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 23:20:46 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:12:07 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	think(t_philo *philo)
 {
 	if (philo->died)
 		return ;
-	print_message(philo, THINK_MSG);
+	if (!my_turn(philo))
+		print_message(philo, THINK_MSG);
 	while (!my_turn(philo))
 	{
 		if (get_time(philo) - philo->turn_timer>= philo->rules->time_to_eat )

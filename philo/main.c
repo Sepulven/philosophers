@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/22 23:19:20 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:32:31 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	philo->turn = 0;
 	philo->started_at = get_time(philo);
 	philo->turn_timer =  get_time(philo);
-	philo->turn = 0;
 	// while (!philo->died 
 	// 	&& (philo->rules->n_times_must_eat == -1
 	// 	|| philo->ate < philo->rules->n_times_must_eat))
@@ -32,7 +32,7 @@ void	*routine(void *arg)
 				pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
 				pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
 			}
-			if (philo->id % 2 != 0)
+			else
 			{
 				pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
 				pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
@@ -48,9 +48,7 @@ void	*routine(void *arg)
 			nap(philo);
 		}
 		else
-		{
 			think(philo);
-		}
 	}
 	return (NULL);
 }
