@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 13:50:53 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:15:11 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,24 @@ void	eat(t_philo *philo)
 {
 	if (philo->died)
 		return ;
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
+		pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->rules->forks[philo->right_fork]);
+		pthread_mutex_lock(&philo->rules->forks[philo->left_fork]);
+	}
+	print_message(philo, FORK_MSG);
+	print_message(philo, FORK_MSG);
 	philo->started_at = get_time(philo);
 	print_message(philo, EAT_MSG);
 	ft_usleep(philo->rules->time_to_eat, philo);
 	philo->ate++;
+	pthread_mutex_unlock(&philo->rules->forks[philo->left_fork]);
+	pthread_mutex_unlock(&philo->rules->forks[philo->right_fork]);
 }
 
 void	nap(t_philo *philo)
@@ -29,37 +43,36 @@ void	nap(t_philo *philo)
 	print_message(philo, NAP_MSG);
 	ft_usleep(philo->rules->time_to_sleep, philo);
 }
+
 /*
 NOTE: If it is a even turn then the even philosophers must eat
 */
 int	my_turn(t_philo *philo)
 {
-	t_rules 		*rules;
-	int				n_philos;
-	int				turn;
+	t_rules		*rules;
+	int			n_philos;
+	int			turn;
 
 	turn = philo->turn_counter;
 	rules = philo->rules;
 	n_philos = rules->n_philos;
 	if (n_philos % 2 == 0)
-		philo->turn = ((turn % 2 == 0 && philo->id % 2 == 0) 
-		|| (turn % 2 != 0 && philo->id % 2 != 0));
+		philo->turn = ((turn % 2 == 0 && philo->id % 2 == 0)
+				|| (turn % 2 != 0 && philo->id % 2 != 0));
 	if (n_philos % 2 != 0)
 	{
 		if (philo->id < turn)
-			philo->turn = ((turn % 2 == 0 && philo->id % 2 == 0) 
-		|| (turn % 2 != 0 && philo->id % 2 != 0));
+			philo->turn = ((turn % 2 == 0 && philo->id % 2 == 0)
+					|| (turn % 2 != 0 && philo->id % 2 != 0));
 		if (philo->id > turn)
-			philo->turn = (((turn + 1) % 2 == 0 && philo->id % 2 == 0) 
-		|| ((turn + 1) % 2 != 0 && philo->id % 2 != 0));
+			philo->turn = (((turn + 1) % 2 == 0 && philo->id % 2 == 0)
+					|| ((turn + 1) % 2 != 0 && philo->id % 2 != 0));
 		if (philo->id == turn)
 			philo->turn = 0;
 	}
 	return (philo->turn);
 }
 
-
-// I am going to try to add the timer through a real timer
 void	think(t_philo *philo)
 {
 	long long	time_to_die;
@@ -71,7 +84,7 @@ void	think(t_philo *philo)
 	time_to_die = philo->rules->time_to_die;
 	while (!my_turn(philo))
 	{
-		if (get_time(philo) - philo->turn_timer>= philo->rules->time_to_eat )
+		if (get_time(philo) - philo->turn_timer >= philo->rules->time_to_eat)
 		{
 			if (philo->turn_counter == philo->rules->n_philos - 1)
 				philo->turn_counter = 0;
