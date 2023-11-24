@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 17:21:38 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 23:12:49 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,11 @@ void	*manager(void *arg)
 		status = WEXITSTATUS(status);
 	sem_wait(philo->rules->rules_sem);
 	if (status == 0)
+	{
 		philo->rules->n_philos_ate++;
+		if (philo->rules->n_philos_ate != philo->rules->n_philos)
+			print_message(philo, THINK_MSG);
+	}
 	else if (status == 1)
 	{
 		philo->rules->philo_that_died = philo->id;
