@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 15:50:09 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:38:46 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,6 @@ long long	get_time(t_philo *philo)
 	started_at = philo->rules->started_at;
 	gettimeofday(&t, NULL);
 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000) - started_at);
-}
-
-void	detach_threads(t_rules *rules)
-{
-	int	i;
-
-	i = 0;
-	while (i < rules->n_philos)
-		pthread_detach(rules->philos[i++]);
 }
 
 int	check_any_died(t_philo *philo)

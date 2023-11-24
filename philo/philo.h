@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 15:56:05 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:38:23 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_rules
 /*utils.c*/
 void			mutexes(t_rules *rules, char c);
 int				check_any_died(t_philo *philo);
-void			detach_threads(t_rules *rules);
 long long		get_time(t_philo *philo);
 int				ft_usleep(long long x, t_philo *philo);
 

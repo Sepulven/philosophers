@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/23 15:52:38 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 23:06:43 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	init_philos(t_rules *rules)
 	while (i < rules->n_philos)
 	{
 		pthread_create(&rules->philos[i], NULL, routine, &rules->philos_arg[i]);
+		pthread_detach(rules->philos[i]);
 		i++;
 	}
 }
@@ -101,6 +102,8 @@ void	*routine(void *arg)
 	}
 	pthread_mutex_lock(&philo->rules->rules_mutex);
 	philo->rules->n_philos_ate++;
+	if (philo->rules->n_philos_ate != philo->rules->n_philos)
+		think(philo);
 	pthread_mutex_unlock(&philo->rules->rules_mutex);
 	return (NULL);
 }
@@ -117,7 +120,6 @@ int	main(int argc, char *argv[])
 	mutexes(&rules, 'i');
 	set_philos(&rules);
 	init_philos(&rules);
-	detach_threads(&rules);
 	while (!usleep(100))
 	{
 		pthread_mutex_lock(&rules.rules_mutex);
