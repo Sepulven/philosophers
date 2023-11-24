@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 13:39:23 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:09:27 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 # define THINK_MSG "is thinking"
 # define DIE_MSG "died"
 
-# define FORKS_SEM "/philosophers_bonus_forks"
-# define RULES_SEM "/philosophers_bonus_rules"
+# define FORKS_SEM "/_bonus_forks"
+# define RULES_SEM "/_bonus_rules"
 
 typedef struct s_rules	t_rules;
 typedef struct s_philo	t_philo;
