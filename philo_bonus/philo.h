@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 15:35:37 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:45:17 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <stddef.h>
 # include <signal.h>
 # include <semaphore.h>
@@ -44,6 +45,7 @@ typedef struct s_philo
 	int			died;
 	int			turn_counter;
 	int			turn_timer;
+	pid_t		pid;
 	long long	ate;
 	long long	started_at;
 	long long	started_turn;
@@ -65,6 +67,7 @@ typedef struct s_rules
 	sem_t			*rules_sem;
 	t_philo			philos_arg[300];
 	pid_t			philos[300];
+	pthread_t		philos_managers[300];
 }	t_rules;
 
 /*utils.c*/

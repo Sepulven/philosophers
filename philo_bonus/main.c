@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 15:42:47 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:50:57 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,23 @@ void	routine(t_philo	*philo)
 		else
 			think(philo);
 	}
-	sem_wait(philo->rules->rules_sem);
-	philo->rules->n_philos_ate++;
-	sem_post(philo->rules->rules_sem);
 	exit(EXIT_SUCCESS);
+}
+
+void	*manager(void *arg)
+{
+	t_philo *philo;
+	int		status;
+
+	philo = (t_philo *)arg;
+	waitpid(philo->pid, &status, 0);
+	sem_wait(philo->rules->rules_sem);
+	if (status == EXIT_SUCCESS)
+		philo->rules->n_philos_ate++;
+	else if (status == EXIT_FAILURE && !philo->rules->died)
+		philo->rules->died = 1;
+	sem_post(philo->rules->rules_sem);
+	return (NULL);
 }
 
 void	init_philos(t_rules *rules)
@@ -102,7 +115,12 @@ void	init_philos(t_rules *rules)
 		if (pid == 0)
 			routine(&rules->philos_arg[i]);
 		else
+		{
 			rules->philos[i] = pid;
+			rules->philos_arg[i].pid = pid;
+			pthread_create(&rules->philos_managers[i], NULL, manager, &rules->philos_arg[i]);
+			pthread_detach(rules->philos_managers[i]);
+		}
 		i++;
 	}
 }
@@ -126,10 +144,7 @@ int	main(int argc, char *argv[])
 	{
 		sem_wait(rules.rules_sem);
 		if (rules.died || rules.n_philos_ate == rules.n_philos)
-		{
-			printf("here we are");
 			break ;
-		}
 		sem_post(rules.rules_sem);
 	}
 	kill_philos(&rules);
