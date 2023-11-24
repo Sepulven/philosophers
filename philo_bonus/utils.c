@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:30:25 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 11:31:32 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 11:35:13 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ int	check_any_died(t_philo *philo)
 
 	rules = philo->rules;
 	philo->died = 1;
-	pthread_mutex_lock(&rules->rules_mutex);
 	if (!rules->died)
 	{
 		rules->died = 1;
 		rules->philo_that_died = philo->id;
 	}
-	pthread_mutex_unlock(&rules->rules_mutex);
 	return (0);
 }
 

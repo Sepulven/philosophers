@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 11:28:06 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 12:06:01 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	init_philos(t_rules *rules)
 {
 	struct timeval	t;
 	int				i;
+	pid_t			pid;
 
 	gettimeofday(&t, NULL);
 	rules->started_at = (t.tv_sec * 1000) + (t.tv_usec / 1000);
@@ -70,11 +71,42 @@ void	init_philos(t_rules *rules)
 	i = 0;
 	while (i < rules->n_philos)
 	{
-		pthread_create(&rules->philos[i], NULL, routine, &rules->philos_arg[i]);
+		pid = fork();
+		if (pid < 0)
+		{
+			printf("Fork failed stoping here!\n Process: %d\n", i);
+			exit(EXIT_FAILURE);
+		} 
+		else if (pid == 0)
+		{
+			printf("This is the child process: %d\n", i);
+			exit(EXIT_SUCCESS);
+		}
+		else
+		{
+			rules->philos[i] = pid;
+			printf("This is the parent process.\n");
+		}
 		i++;
 	}
 }
 
+void	kill_philos(t_rules *rules)
+{
+	int				i;
+
+	i = 0;
+	while (i < rules->n_philos)
+	{
+		if (kill(rules->philos[i], SIGTERM))
+		{
+			printf("We couldn't kill the philo %d of pid %d\n", i, rules->philos[i]);
+			exit(EXIT_FAILURE);
+		}
+		printf("Child process number: %d killed\n", rules->philos[i]);
+		i++;
+	}
+}
 
 int	main(int argc, char *argv[])
 {
@@ -86,6 +118,9 @@ int	main(int argc, char *argv[])
 	if (rules.n_philos > 200)
 		exit(1);
 	set_philos(&rules);
-	log_philos(&rules);
+	init_philos(&rules);
+	sleep(4);
+	kill_philos(&rules);
+	
 	return (0);
 }
