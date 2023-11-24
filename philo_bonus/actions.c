@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 20:33:40 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 14:57:25 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:15:18 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	think(t_philo *philo)
 			philo->turn_timer = get_time(philo);
 		}
 		if (get_time(philo) - philo->started_at >= time_to_die)
-			return ((void)check_any_died(philo));
+			exit(1);
 		usleep(100);
 	}
 }

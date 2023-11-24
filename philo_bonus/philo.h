@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 16:45:17 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:00:12 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct s_rules
 }	t_rules;
 
 /*utils.c*/
-int				check_any_died(t_philo *philo);
 long long		get_time(t_philo *philo);
 int				ft_usleep(long long x, t_philo *philo);
 

@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 16:50:57 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:21:38 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	routine(t_philo	*philo)
 		else
 			think(philo);
 	}
-	exit(EXIT_SUCCESS);
+	exit(0);
 }
 
 void	*manager(void *arg)
@@ -83,11 +83,17 @@ void	*manager(void *arg)
 
 	philo = (t_philo *)arg;
 	waitpid(philo->pid, &status, 0);
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
 	sem_wait(philo->rules->rules_sem);
-	if (status == EXIT_SUCCESS)
+	if (status == 0)
 		philo->rules->n_philos_ate++;
-	else if (status == EXIT_FAILURE && !philo->rules->died)
+	else if (status == 1)
+	{
+		philo->rules->philo_that_died = philo->id;
 		philo->rules->died = 1;
+	}
+	
 	sem_post(philo->rules->rules_sem);
 	return (NULL);
 }
@@ -110,7 +116,7 @@ void	init_philos(t_rules *rules)
 		if (pid < 0)
 		{
 			printf("Fork failed stoping here!\n Process: %d\n", i);
-			exit(EXIT_FAILURE);
+			exit(1);
 		}
 		if (pid == 0)
 			routine(&rules->philos_arg[i]);
@@ -147,6 +153,8 @@ int	main(int argc, char *argv[])
 			break ;
 		sem_post(rules.rules_sem);
 	}
+	if (rules.philo_that_died != -1)
+		print_message(&rules.philos_arg[rules.philo_that_died], DIE_MSG);
 	kill_philos(&rules);
 	sem_close(rules.rules_sem);
 	sem_close(rules.rules_sem);
