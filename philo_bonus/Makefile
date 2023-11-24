@@ -3,7 +3,8 @@ NAME		=	philo_bonus
 CC			=	cc 
 CFLAGS 		=	-Wall -Werror -Wextra -fPIE
 INCLUDES	=	-lpthread
-SRC			=	main.c converters.c loggers.c utils.c actions.c
+SRC			=	main.c converters.c loggers.c utils.c actions.c \
+				semaphores.c
 OBJ			=	$(SRC:.c=.o)
 
 %.o: %.c

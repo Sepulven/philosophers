@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 15:15:44 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:42:47 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 	}
 }
 
-void	*routine(t_philo	*philo)
+void	routine(t_philo	*philo)
 {
 	philo->started_at = get_time(philo);
 	philo->turn_timer = get_time(philo);
@@ -76,7 +76,7 @@ void	*routine(t_philo	*philo)
 	sem_wait(philo->rules->rules_sem);
 	philo->rules->n_philos_ate++;
 	sem_post(philo->rules->rules_sem);
-	return (NULL);
+	exit(EXIT_SUCCESS);
 }
 
 void	init_philos(t_rules *rules)
@@ -99,33 +99,10 @@ void	init_philos(t_rules *rules)
 			printf("Fork failed stoping here!\n Process: %d\n", i);
 			exit(EXIT_FAILURE);
 		}
-		else if (pid == 0)
-		{
-			sem_wait(rules->rules_sem);
-			sem_post(rules->rules_sem);
+		if (pid == 0)
 			routine(&rules->philos_arg[i]);
-			exit(EXIT_SUCCESS);
-		}
 		else
 			rules->philos[i] = pid;
-		i++;
-	}
-	usleep(100);
-}
-
-void	kill_philos(t_rules *rules)
-{
-	int	i;
-
-	i = 0;
-	while (i < rules->n_philos)
-	{
-		if (kill(rules->philos[i], SIGTERM))
-		{
-			printf("We couldn't kill the philo %d of pid %d\n", i, rules->philos[i]);
-			exit(EXIT_FAILURE);
-		}
-		printf("Child process number: %d killed\n", rules->philos[i]);
 		i++;
 	}
 }
@@ -144,14 +121,15 @@ int	main(int argc, char *argv[])
 	sem_unlink(RULES_SEM);
 	rules.forks_sem = sem_open(FORKS_SEM, O_CREAT | O_EXCL, 0644, rules.n_philos);
 	rules.rules_sem = sem_open(RULES_SEM, O_CREAT | O_EXCL, 0644, 1);
-	if (rules.forks_sem == SEM_FAILED || rules.rules_sem == SEM_FAILED)
-		printf("hehehe\n");
 	init_philos(&rules);
 	while(!usleep(100))
 	{
 		sem_wait(rules.rules_sem);
 		if (rules.died || rules.n_philos_ate == rules.n_philos)
+		{
+			printf("here we are");
 			break ;
+		}
 		sem_post(rules.rules_sem);
 	}
 	kill_philos(&rules);

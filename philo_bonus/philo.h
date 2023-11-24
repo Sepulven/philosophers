@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 15:11:24 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:35:37 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ typedef struct s_rules
 int				check_any_died(t_philo *philo);
 long long		get_time(t_philo *philo);
 int				ft_usleep(long long x, t_philo *philo);
+
+/*semaphores.c*/
+void			kill_philos(t_rules *rules);
 
 /*actions.c*/
 void			eat(t_philo *philo);
