@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 13:40:08 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 13:54:46 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,28 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 	}
 }
 
+void	*routine(t_philo	*philo)
+{
+	philo->started_at = get_time(philo);
+	philo->turn_timer = get_time(philo);
+	while (!philo->died
+		&& (philo->rules->n_times_must_eat == -1
+			|| philo->ate < philo->rules->n_times_must_eat))
+	{
+		if (my_turn(philo))
+		{
+			eat(philo);
+			nap(philo);
+		}
+		else
+			think(philo);
+	}
+	sem_wait(philo->rules->rules_sem);
+	philo->rules->n_philos_ate++;
+	sem_post(philo->rules->rules_sem);
+	return (NULL);
+}
+
 void	init_philos(t_rules *rules)
 {
 	struct timeval	t;
@@ -76,23 +98,14 @@ void	init_philos(t_rules *rules)
 		{
 			printf("Fork failed stoping here!\n Process: %d\n", i);
 			exit(EXIT_FAILURE);
-		} 
+		}
 		else if (pid == 0)
 		{
-			sem_wait(rules->forks_sem);
-			printf("This is the child process: %d\n", i);
-			usleep(10);
-			sem_post(rules->forks_sem);
-			printf("Survived %d\n", i);
+			routine(&rules->philos_arg[i]);
 			exit(EXIT_SUCCESS);
 		}
 		else
-		{
-			sem_wait(rules->forks_sem);
 			rules->philos[i] = pid;
-			sem_post(rules->forks_sem);
-			// printf("This is the parent process.\n");
-		}
 		i++;
 	}
 	usleep(100);
@@ -100,7 +113,7 @@ void	init_philos(t_rules *rules)
 
 void	kill_philos(t_rules *rules)
 {
-	int				i;
+	int	i;
 
 	i = 0;
 	while (i < rules->n_philos)
