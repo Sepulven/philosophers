@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 12:06:01 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 13:40:08 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,23 @@ void	init_philos(t_rules *rules)
 		} 
 		else if (pid == 0)
 		{
+			sem_wait(rules->forks_sem);
 			printf("This is the child process: %d\n", i);
+			usleep(10);
+			sem_post(rules->forks_sem);
+			printf("Survived %d\n", i);
 			exit(EXIT_SUCCESS);
 		}
 		else
 		{
+			sem_wait(rules->forks_sem);
 			rules->philos[i] = pid;
-			printf("This is the parent process.\n");
+			sem_post(rules->forks_sem);
+			// printf("This is the parent process.\n");
 		}
 		i++;
 	}
+	usleep(100);
 }
 
 void	kill_philos(t_rules *rules)
@@ -117,10 +124,20 @@ int	main(int argc, char *argv[])
 	set_rules(argc, argv, &rules);
 	if (rules.n_philos > 200)
 		exit(1);
-	set_philos(&rules);
+	rules.forks_sem = sem_open(FORKS_SEM, O_CREAT, 0666, 1);
+	rules.rules_sem = sem_open(RULES_SEM, O_CREAT, 0666, 1);
 	init_philos(&rules);
-	sleep(4);
+	// while(!usleep(100))
+	// {
+	// 	sem_wait(rules.rules_sem);
+	// 	if (rules.died || rules.n_philos_ate == rules.n_philos)
+	// 		break ;
+	// 	sem_post(rules.rules_sem);
+	// }
 	kill_philos(&rules);
-	
+	sem_close(rules.rules_sem);
+	sem_close(rules.rules_sem);
+	sem_unlink(RULES_SEM);
+	sem_unlink(FORKS_SEM);
 	return (0);
 }

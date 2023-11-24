@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 11:50:29 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 13:39:23 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,18 @@
 # include <sys/time.h>
 # include <stddef.h>
 # include <signal.h>
+# include <semaphore.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # define FORK_MSG "has taken a fork"
 # define EAT_MSG "is eating"
 # define NAP_MSG "is sleeping"
 # define THINK_MSG "is thinking"
 # define DIE_MSG "died"
+
+# define FORKS_SEM "/philosophers_bonus_forks"
+# define RULES_SEM "/philosophers_bonus_rules"
 
 typedef struct s_rules	t_rules;
 typedef struct s_philo	t_philo;
@@ -55,6 +61,8 @@ typedef struct s_rules
 	int				died;
 	int				philo_that_died;
 	int				n_philos_ate;
+	sem_t			*forks_sem;
+	sem_t			*rules_sem;
 	t_philo			philos_arg[300];
 	pid_t			philos[300];
 }	t_rules;
