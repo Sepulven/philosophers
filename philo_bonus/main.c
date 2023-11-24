@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 15:05:15 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:15:44 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	init_philos(t_rules *rules)
 		else if (pid == 0)
 		{
 			sem_wait(rules->rules_sem);
-			printf("aaa\n");
 			sem_post(rules->rules_sem);
 			routine(&rules->philos_arg[i]);
 			exit(EXIT_SUCCESS);
@@ -141,6 +140,8 @@ int	main(int argc, char *argv[])
 	if (rules.n_philos > 200)
 		exit(1);
 	set_philos(&rules);
+	sem_unlink(FORKS_SEM);
+	sem_unlink(RULES_SEM);
 	rules.forks_sem = sem_open(FORKS_SEM, O_CREAT | O_EXCL, 0644, rules.n_philos);
 	rules.rules_sem = sem_open(RULES_SEM, O_CREAT | O_EXCL, 0644, 1);
 	if (rules.forks_sem == SEM_FAILED || rules.rules_sem == SEM_FAILED)
