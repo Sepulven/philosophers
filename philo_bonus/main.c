@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/25 15:34:59 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 17:05:30 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	init_philos(t_rules *rules)
 			routine(&rules->philos_arg[i]);
 		else
 		{
-			rules->philos[i] = pid;
 			pthread_create(&rules->philos_managers[i], NULL, \
 			manager, &rules->philos_arg[i]);
 			pthread_detach(rules->philos_managers[i]);

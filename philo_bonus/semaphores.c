@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:34:29 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/25 15:39:10 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 17:06:31 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	kill_philos(t_rules *rules)
 
 	i = 0;
 	while (i < rules->n_philos)
-	{
-		if (kill(rules->philos[i++], SIGTERM) == -1)
-			write(1, "hhh\n", 4);
-	}
+		kill(rules->philos[i++], SIGINT);
 }
 
 void	*manager(void *arg)
