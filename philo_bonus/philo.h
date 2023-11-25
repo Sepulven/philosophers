@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 17:00:12 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 14:31:40 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_philo
 	int			died;
 	int			turn_counter;
 	int			turn_timer;
-	pid_t		pid;
 	long long	ate;
 	long long	started_at;
 	long long	started_turn;
@@ -76,6 +75,7 @@ int				ft_usleep(long long x, t_philo *philo);
 
 /*semaphores.c*/
 void			kill_philos(t_rules *rules);
+void			*manager(void *arg);
 
 /*actions.c*/
 void			eat(t_philo *philo);

@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 23:12:49 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 14:39:15 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	set_rules(int argc, char *argv[], t_rules *rules)
 	if (argc - 1 == 4)
 		rules->n_times_must_eat = -1;
 	i = 1;
+	sem_unlink(FORKS_SEM);
+	sem_unlink(RULES_SEM);
 	while (i < argc)
 	{
 		value = ft_atoi(argv[i]);
@@ -76,40 +78,13 @@ void	routine(t_philo	*philo)
 	exit(0);
 }
 
-void	*manager(void *arg)
-{
-	t_philo *philo;
-	int		status;
-
-	philo = (t_philo *)arg;
-	waitpid(philo->pid, &status, 0);
-	if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
-	sem_wait(philo->rules->rules_sem);
-	if (status == 0)
-	{
-		philo->rules->n_philos_ate++;
-		if (philo->rules->n_philos_ate != philo->rules->n_philos)
-			print_message(philo, THINK_MSG);
-	}
-	else if (status == 1)
-	{
-		philo->rules->philo_that_died = philo->id;
-		philo->rules->died = 1;
-	}
-	
-	sem_post(philo->rules->rules_sem);
-	return (NULL);
-}
-
 void	init_philos(t_rules *rules)
 {
-	struct timeval	t;
 	int				i;
 	pid_t			pid;
 
-	gettimeofday(&t, NULL);
-	rules->started_at = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	rules->started_at = 0;
+	rules->started_at = get_time(&rules->philos_arg[0]);
 	rules->died = 0;
 	rules->n_philos_ate = 0;
 	rules->philo_that_died = -1;
@@ -118,17 +93,14 @@ void	init_philos(t_rules *rules)
 	{
 		pid = fork();
 		if (pid < 0)
-		{
-			printf("Fork failed stoping here!\n Process: %d\n", i);
 			exit(1);
-		}
 		if (pid == 0)
 			routine(&rules->philos_arg[i]);
 		else
 		{
 			rules->philos[i] = pid;
-			rules->philos_arg[i].pid = pid;
-			pthread_create(&rules->philos_managers[i], NULL, manager, &rules->philos_arg[i]);
+			pthread_create(&rules->philos_managers[i], NULL, \
+			manager, &rules->philos_arg[i]);
 			pthread_detach(rules->philos_managers[i]);
 		}
 		i++;
@@ -145,21 +117,17 @@ int	main(int argc, char *argv[])
 	if (rules.n_philos > 200)
 		exit(1);
 	set_philos(&rules);
-	sem_unlink(FORKS_SEM);
-	sem_unlink(RULES_SEM);
-	rules.forks_sem = sem_open(FORKS_SEM, O_CREAT | O_EXCL, 0644, rules.n_philos);
+	rules.forks_sem = sem_open(FORKS_SEM, O_CREAT | O_EXCL, 0644, \
+	rules.n_philos);
 	rules.rules_sem = sem_open(RULES_SEM, O_CREAT | O_EXCL, 0644, 1);
 	init_philos(&rules);
-	while(!usleep(100))
+	while (!usleep(100))
 	{
 		sem_wait(rules.rules_sem);
 		if (rules.died || rules.n_philos_ate == rules.n_philos)
 			break ;
 		sem_post(rules.rules_sem);
 	}
-	if (rules.philo_that_died != -1)
-		print_message(&rules.philos_arg[rules.philo_that_died], DIE_MSG);
-	kill_philos(&rules);
 	sem_close(rules.rules_sem);
 	sem_close(rules.rules_sem);
 	sem_unlink(RULES_SEM);
