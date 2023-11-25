@@ -6,27 +6,11 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:18:30 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/25 17:10:37 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 17:16:44 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./philo.h"
-
-void	log_philos(t_rules *rules)
-{
-	int	i;
-
-	i = 0;
-	while (i < rules->n_philos)
-	{
-		printf("\nPhilo: %d turn: %d\n\t Died: %d\n", \
-		i, \
-		rules->philos_arg[i].turn, \
-		rules->philos_arg[i].died \
-		);
-		i++;
-	}
-}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

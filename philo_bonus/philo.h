@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:20:47 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/25 14:31:40 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 17:16:50 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void			think(t_philo *philo);
 int				my_turn(t_philo *philo);
 
 /*loggers.c*/
-void			log_philos(t_rules *rules);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t			ft_strlen(const char *str);
 int				print_message(t_philo *philo, const char *message);

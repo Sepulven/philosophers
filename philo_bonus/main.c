@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/25 17:05:30 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 17:38:49 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	init_philos(t_rules *rules)
 			routine(&rules->philos_arg[i]);
 		else
 		{
+			rules->philos[i] = pid;
 			pthread_create(&rules->philos_managers[i], NULL, \
 			manager, &rules->philos_arg[i]);
 			pthread_detach(rules->philos_managers[i]);
@@ -128,8 +129,6 @@ int	main(int argc, char *argv[])
 		sem_post(rules.rules_sem);
 	}
 	kill_philos(&rules);
-	sem_close(rules.rules_sem);
-	sem_close(rules.rules_sem);
 	sem_unlink(RULES_SEM);
 	sem_unlink(FORKS_SEM);
 	return (0);
