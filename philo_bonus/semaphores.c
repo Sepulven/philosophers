@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:34:29 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/25 14:40:29 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 15:07:36 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	*manager(void *arg)
 	}
 	else if (status == 1)
 	{
-		if (philo->rules->philo_that_died == -1)
+		if (philo->rules->died == -1)
 			print_message(&philo->rules->philos_arg[philo->id], DIE_MSG);
 		kill_philos(philo->rules);
 		philo->rules->died = 1;
