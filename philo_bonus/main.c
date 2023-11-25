@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:52:02 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/25 14:39:15 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 15:34:59 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int	main(int argc, char *argv[])
 			break ;
 		sem_post(rules.rules_sem);
 	}
+	kill_philos(&rules);
 	sem_close(rules.rules_sem);
 	sem_close(rules.rules_sem);
 	sem_unlink(RULES_SEM);

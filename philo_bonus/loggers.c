@@ -6,7 +6,7 @@
 /*   By: asepulve <asepulve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:18:30 by asepulve          #+#    #+#             */
-/*   Updated: 2023/11/24 11:34:51 by asepulve         ###   ########.fr       */
+/*   Updated: 2023/11/25 15:27:47 by asepulve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ size_t	ft_strlen(const char *str)
 
 int	print_message(t_philo *philo, const char *message)
 {
-	printf("%05llu %d %s\n", get_time(philo), philo->id + 1, message);
+	(void)philo;
+	(void)message;
+	// printf("%05llu %d %s\n", get_time(philo), philo->id + 1, message);
 	return (1);
 }
